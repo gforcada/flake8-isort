@@ -1,0 +1,3 @@
+include MANIFEST.in LICENSE *.rst *.py *.cfg *.ini
+exclude .installed.cfg .coveragerc *.pyc
+
