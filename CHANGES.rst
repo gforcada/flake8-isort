@@ -3,7 +3,7 @@
 Changelog
 =========
 
-0.1 (unreleased)
+0.1 (2015-09-13)
 ----------------
 - Initial release
   [gforcada]
