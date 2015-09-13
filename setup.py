@@ -40,6 +40,12 @@ setup(
         'flake8',
         'isort',
     ],
+    extras_require={
+        'test': [
+            'testfixtures',
+            'tox',
+        ],
+    },
     entry_points={
         'flake8.extension': ['I00 = flake8_isort:Flake8IsortChecker'],
     },
