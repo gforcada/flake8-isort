@@ -3,8 +3,8 @@
 Changelog
 =========
 
-0.1.post1 (unreleased)
-----------------------
+0.2 (unreleased)
+----------------
 
 - Nothing changed yet.
 
