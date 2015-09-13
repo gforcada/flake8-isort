@@ -3,7 +3,7 @@
 Changelog
 =========
 
-0.1.post0 (unreleased)
+0.1.post0 (2015-09-13)
 ----------------------
 - Release wheels as well.
   [gforcada]
