@@ -5,9 +5,8 @@ Changelog
 
 0.2 (unreleased)
 ----------------
-
-- Nothing changed yet.
-
+- Fix entry point.
+  [gforcada]
 
 0.1.post0 (2015-09-13)
 ----------------------

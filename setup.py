@@ -47,6 +47,6 @@ setup(
         ],
     },
     entry_points={
-        'flake8.extension': ['I00 = flake8_isort:Flake8IsortChecker'],
+        'flake8.extension': ['I00 = flake8_isort:Flake8Isort'],
     },
 )
