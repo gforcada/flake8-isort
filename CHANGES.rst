@@ -3,6 +3,12 @@
 Changelog
 =========
 
+0.3 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 0.2 (2015-09-14)
 ----------------
 - Fix entry point.
