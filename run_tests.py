@@ -45,7 +45,7 @@ class TestFlake8Isort(unittest.TestCase):
             checker = Flake8Isort(None, file_path)
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 0)
+            self.assertEqual(ret[0][0], 1)
             self.assertEqual(ret[0][1], 0)
             self.assertEqual(ret[0][2], 'I001 found unsorted imports')
 
