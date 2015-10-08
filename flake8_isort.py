@@ -18,21 +18,28 @@ def supress_stdout():
     sys.stdout = save_stdout
 
 
-class Read(object):
+class Content(object):
 
     @classmethod
-    def file(cls, filename):
+    def read(cls, tree, filename):
+        return (
+            cls.get_tree_source(tree) or
+            cls.get_file_contents(filename) or
+            cls.read_stdin())
+
+    @classmethod
+    def get_file_contents(cls, filename):
         if filename == 'stdin':
             return None
         with open(filename, 'r') as f:
             return f.read()
 
     @classmethod
-    def tree(cls, tree):
+    def get_tree_source(cls, tree):
         return getattr(tree, 'source', None)
 
     @classmethod
-    def stdin(cls):
+    def read_stdin(cls):
         content = sys.stdin.read()
         if not content:
             # issue: https://github.com/PyCQA/pep8/pull/443
@@ -46,7 +53,7 @@ class Flake8Isort(object):
     message = 'I001 found unsorted imports'
 
     def __init__(self, tree, filename, builtins=None):
-        self.content = Read.tree(tree) or Read.file(filename) or Read.stdin()
+        self.content = Content.read(tree, filename)
 
     def get_line_number(self):
         """Return the line number of the first import.
