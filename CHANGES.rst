@@ -3,7 +3,7 @@
 Changelog
 =========
 
-0.3 (unreleased)
+1.0 (2015-12-16)
 ----------------
 - Check for an isort configuration file.
   [gforcada]
