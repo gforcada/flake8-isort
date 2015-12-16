@@ -20,6 +20,15 @@ Install with pip::
 
     $ pip install flake8-isort
 
+Options
+-------
+Since version 1.0 a check for an ``.isort.cfg`` file is done.
+
+This potentially avoids to lint a project that has no formal definition of how import should be sorted.
+
+With either ``--no-isort-config`` command line switch,
+or ``no-isort-config`` flake8 configuration option it can be disabled.
+
 Requirements
 ------------
 - Python 2.7, 3.3, 3.4
