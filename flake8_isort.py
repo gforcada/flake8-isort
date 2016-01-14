@@ -2,6 +2,10 @@
 from isort import SortImports
 
 import os
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser
 
 
 class Flake8Isort(object):
@@ -39,7 +43,9 @@ class Flake8Isort(object):
                 yield 0, 0, self.message, type(self)
 
     def search_isort_config(self):
-        """Search for a .isort.cfg all the way up to the root folder"""
+        """Search for a .isort.cfg or setup.cfg all the way up to the root
+        folder
+        """
         full_path = os.path.abspath(self.filename)
         path_parts = full_path.split(os.path.sep)
         dirs_missing = len(path_parts)
@@ -52,5 +58,14 @@ class Flake8Isort(object):
             isort_file = '{0}{1}.isort.cfg'.format(partial_path, os.sep)
             if os.path.exists(isort_file):
                 return True
+
+            # If the setup file exists and has an "isort" section,
+            # then we've found the configuration.
+            setup_file = os.path.join(partial_path, 'setup.cfg')
+            if os.path.exists(setup_file):
+                config = ConfigParser()
+                config.read(setup_file)
+                if 'isort' in config.sections():
+                    return True
 
         return False
