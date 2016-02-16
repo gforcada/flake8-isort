@@ -5,13 +5,14 @@ Changelog
 
 1.2 (unreleased)
 ----------------
+- Silence isort messages.
+  [gforcada]
 
-- Nothing changed yet.
-
+- Improve wording.
+  [gforcada]
 
 1.1 (2016-02-16)
 ----------------
-
 - Check for isort configuration on setup.cfg as well.
   [plumdog]
 
