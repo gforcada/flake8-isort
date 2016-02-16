@@ -6,8 +6,8 @@ Changelog
 1.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Check for isort configuration on setup.cfg as well.
+  [plumdog]
 
 1.0 (2015-12-16)
 ----------------
