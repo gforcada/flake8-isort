@@ -2,6 +2,7 @@
 from isort import SortImports
 
 import os
+
 try:
     from configparser import ConfigParser
 except ImportError:
@@ -11,7 +12,9 @@ except ImportError:
 class Flake8Isort(object):
     name = 'flake8_isort'
     version = '0.1'
-    message = 'I001 found unsorted imports'
+    isort_error_msg = 'I001 isort found changes, run it on the file'
+    no_config_msg = 'I002 no configuration found (.isort.cfg or [isort] on ' \
+                    'setup.cfg)'
 
     config_file = None
 
@@ -23,7 +26,7 @@ class Flake8Isort(object):
         parser.add_option(
             '--no-isort-config',
             action='store_true',
-            help='Do not require an .isort.cfg file to be found'
+            help='Do not require explicit configuration to be found'
         )
         parser.config_options.append('no-isort-config')
 
@@ -36,15 +39,17 @@ class Flake8Isort(object):
 
     def run(self):
         if self.config_file and not self.search_isort_config():
-            yield 0, 0, 'I002 no .isort.cfg file found', type(self)
+            yield 0, 0, self.no_config_msg, type(self)
         else:
             sort_result = SortImports(self.filename, check=True)
             if sort_result.incorrectly_sorted:
-                yield 0, 0, self.message, type(self)
+                yield 0, 0, self.isort_error_msg, type(self)
 
     def search_isort_config(self):
-        """Search for a .isort.cfg or setup.cfg all the way up to the root
-        folder
+        """Search for isort configuration all the way up to the root folder
+
+        Either on ``.isort.cfg`` file or an ``[isort]`` section on
+        ``setup.cfg``.
         """
         full_path = os.path.abspath(self.filename)
         path_parts = full_path.split(os.path.sep)
