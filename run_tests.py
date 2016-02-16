@@ -49,7 +49,10 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            self.assertEqual(ret[0][2], 'I001 found unsorted imports')
+            self.assertEqual(
+                ret[0][2],
+                'I001 isort found changes, run it on the file'
+            )
 
     def test_isortcfg_found(self):
         # _given_a_file_in_test_dir already creates an .isort.cfg file
@@ -65,7 +68,10 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            self.assertEqual(ret[0][2], 'I001 found unsorted imports')
+            self.assertEqual(
+                ret[0][2],
+                'I001 isort found changes, run it on the file'
+            )
 
     def test_isortcfg_not_found(self):
         file_path = self._given_a_file_in_test_dir(
@@ -85,7 +91,11 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            self.assertEqual(ret[0][2], 'I002 no .isort.cfg file found')
+            self.assertEqual(
+                ret[0][2],
+                'I002 no configuration found (.isort.cfg or [isort] on '
+                'setup.cfg)'
+            )
 
     def test_default_option(self):
         """By default a config file (.isort.cfg) is expected"""
