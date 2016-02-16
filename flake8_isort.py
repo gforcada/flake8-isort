@@ -43,7 +43,8 @@ class Flake8Isort(object):
         if self.config_file and not self.search_isort_config():
             yield 0, 0, self.no_config_msg, type(self)
         else:
-            sort_result = SortImports(self.filename, check=True)
+            with OutputCapture():
+                sort_result = SortImports(self.filename, check=True)
             if sort_result.incorrectly_sorted:
                 yield 0, 0, self.isort_error_msg, type(self)
 

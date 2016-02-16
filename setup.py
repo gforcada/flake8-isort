@@ -39,12 +39,8 @@ setup(
     install_requires=[
         'flake8',
         'isort',
+        'testfixtures',
     ],
-    extras_require={
-        'test': [
-            'testfixtures',
-        ],
-    },
     entry_points={
         'flake8.extension': ['I00 = flake8_isort:Flake8Isort'],
     },
