@@ -69,7 +69,7 @@ class Flake8Isort(object):
 
             # If the setup file exists and has an "isort" section,
             # then we've found the configuration.
-            setup_file = os.path.join(partial_path, 'setup.cfg')
+            setup_file = '{0}{1}setup.cfg'.format(partial_path, os.sep)
             if os.path.exists(setup_file):
                 config = ConfigParser()
                 config.read(setup_file)
