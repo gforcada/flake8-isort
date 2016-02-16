@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from isort import SortImports
+from testfixtures import OutputCapture
 
 import os
+
 
 try:
     from configparser import ConfigParser
