@@ -3,7 +3,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2016-02-16)
 ----------------
 
 - Check for isort configuration on setup.cfg as well.
