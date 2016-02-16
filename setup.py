@@ -43,7 +43,6 @@ setup(
     extras_require={
         'test': [
             'testfixtures',
-            'tox',
         ],
     },
     entry_points={
