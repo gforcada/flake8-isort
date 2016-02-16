@@ -3,6 +3,12 @@
 Changelog
 =========
 
+1.2 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 1.1.1 (2016-02-16)
 ------------------
 - Silence isort messages.
