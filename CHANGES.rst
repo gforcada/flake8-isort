@@ -5,9 +5,8 @@ Changelog
 
 1.2 (unreleased)
 ----------------
-
-- Nothing changed yet.
-
+- Allow stdin processing, this way text editor can pass input to flake8.
+  [mjacksonw]
 
 1.1.1 (2016-02-16)
 ------------------
