@@ -3,6 +3,12 @@
 Changelog
 =========
 
+1.3 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 1.2 (2016-03-05)
 ----------------
 - Allow stdin processing, this way text editor can pass input to flake8.
