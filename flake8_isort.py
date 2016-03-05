@@ -3,6 +3,7 @@ from isort import SortImports
 from testfixtures import OutputCapture
 
 import os
+import pep8
 
 
 try:
@@ -44,7 +45,13 @@ class Flake8Isort(object):
             yield 0, 0, self.no_config_msg, type(self)
         else:
             with OutputCapture():
-                sort_result = SortImports(self.filename, check=True)
+                if self.filename == 'stdin':
+                    sort_result = SortImports(
+                        file_contents=pep8.stdin_get_value(),
+                        check=True,
+                    )
+                else:
+                    sort_result = SortImports(self.filename, check=True)
             if sort_result.incorrectly_sorted:
                 yield 0, 0, self.isort_error_msg, type(self)
 
