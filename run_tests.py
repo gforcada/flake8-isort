@@ -49,9 +49,9 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            self.assertEqual(
+            self.assertIn(
+                'I001 ',
                 ret[0][2],
-                'I001 isort found changes, run it on the file'
             )
 
     def test_isortcfg_found(self):
@@ -68,9 +68,9 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            self.assertEqual(
+            self.assertIn(
+                'I001 ',
                 ret[0][2],
-                'I001 isort found changes, run it on the file'
             )
 
     def test_isortcfg_not_found(self):
@@ -91,10 +91,9 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            self.assertEqual(
+            self.assertIn(
+                'I002 ',
                 ret[0][2],
-                'I002 no configuration found (.isort.cfg or [isort] on '
-                'setup.cfg)'
             )
 
     def test_default_option(self):
