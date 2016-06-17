@@ -3,7 +3,11 @@ from isort import SortImports
 from testfixtures import OutputCapture
 
 import os
-import pep8
+
+try:
+    from pep8 import stdin_get_value
+except ImportError:
+    from pycodestyle import stdin_get_value
 
 
 try:
@@ -48,7 +52,7 @@ class Flake8Isort(object):
             with OutputCapture():
                 if self.filename == 'stdin':
                     sort_result = SortImports(
-                        file_contents=pep8.stdin_get_value(),
+                        file_contents=stdin_get_value(),
                         check=True,
                     )
                 else:
