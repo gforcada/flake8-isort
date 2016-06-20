@@ -6,8 +6,14 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Make error messages clearer.
+  [do3cc]
 
+- Use either pep8 or pycodestyle (new name for pep8).
+  [Maxim Novikov]
+
+- Fix coveralls.
+  [gforcada]
 
 1.2 (2016-03-05)
 ----------------
