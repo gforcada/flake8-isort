@@ -3,7 +3,7 @@
 Changelog
 =========
 
-1.3 (unreleased)
+1.3 (2016-06-20)
 ----------------
 
 - Make error messages clearer.
