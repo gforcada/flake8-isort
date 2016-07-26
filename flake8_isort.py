@@ -16,9 +16,14 @@ except ImportError:
     from ConfigParser import ConfigParser
 
 
+import flake8
+
+IS_FLAKE8_3 = flake8.__version_info__ >= (3, 0, 0)
+
+
 class Flake8Isort(object):
     name = 'flake8_isort'
-    version = '0.1'
+    version = '0.1.1'
     isort_error_msg = ('I001 isort found deviations to configured sorting '
         'rules, run it on the file to fix this.')
     no_config_msg = ('I002 no configuration found (.isort.cfg or [isort] on '
@@ -31,12 +36,20 @@ class Flake8Isort(object):
 
     @classmethod
     def add_options(cls, parser):
-        parser.add_option(
-            '--no-isort-config',
-            action='store_true',
-            help='Do not require explicit configuration to be found'
-        )
-        parser.config_options.append('no-isort-config')
+        if IS_FLAKE8_3:
+            parser.add_option(
+                '--no-isort-config',
+                action='store_true',
+                parse_from_config=True,
+                help='Do not require explicit configuration to be found'
+            )
+        else:
+            parser.add_option(
+                '--no-isort-config',
+                action='store_true',
+                help='Do not require explicit configuration to be found'
+            )
+            parser.config_options.append('no-isort-config')
 
     @classmethod
     def parse_options(cls, options):
