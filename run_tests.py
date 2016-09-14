@@ -116,7 +116,12 @@ class TestFlake8Isort(unittest.TestCase):
         _argv = sys.argv
         try:
             sys.argv = ['', '--no-isort-config']
-            get_style_guide(parse_argv=True)  # parse arguments
+            if IS_FLAKE8_3:
+                from flake8.main import application
+                app = application.Application()
+                app.run(sys.argv)
+            else:
+                get_style_guide(parse_argv=True)  # parse arguments
             self.assertFalse(Flake8Isort.config_file)
         finally:
             sys.argv = _argv
