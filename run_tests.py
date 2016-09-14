@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-from flake8.engine import get_style_guide
+try:
+    from flake8.engine import get_style_guide
+except ImportError:
+    from flake8.api.legacy import get_style_guide
+
 from flake8_isort import Flake8Isort
 from tempfile import mkdtemp
 from testfixtures import OutputCapture
