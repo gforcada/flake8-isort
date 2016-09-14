@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
-try:
-    from flake8.engine import get_style_guide
-except ImportError:
-    from flake8.api.legacy import get_style_guide
-
+from flake8.main import application
 from flake8_isort import Flake8Isort
-from flake8_isort import IS_FLAKE8_3
 from tempfile import mkdtemp
 from testfixtures import OutputCapture
 
 import os
-import sys
 import unittest
 
 
@@ -103,28 +97,15 @@ class TestFlake8Isort(unittest.TestCase):
 
     def test_default_option(self):
         """By default a config file (.isort.cfg) is expected"""
-        _argv = sys.argv
-        try:
-            sys.argv = []
-            get_style_guide(parse_argv=True)  # parse arguments
-            self.assertTrue(Flake8Isort.config_file)
-        finally:
-            sys.argv = _argv
+        app = application.Application()
+        app.run([])
+        self.assertTrue(Flake8Isort.config_file)
 
     def test_config_file(self):
         """Check that one can force to not look for a config file"""
-        _argv = sys.argv
-        try:
-            sys.argv = ['', '--no-isort-config']
-            if IS_FLAKE8_3:
-                from flake8.main import application
-                app = application.Application()
-                app.run(sys.argv)
-            else:
-                get_style_guide(parse_argv=True)  # parse arguments
-            self.assertFalse(Flake8Isort.config_file)
-        finally:
-            sys.argv = _argv
+        app = application.Application()
+        app.run(['', '--no-isort-config'])
+        self.assertFalse(Flake8Isort.config_file)
 
 
 if __name__ == '__main__':
