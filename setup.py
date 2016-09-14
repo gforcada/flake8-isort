@@ -11,7 +11,7 @@ long_description = '{0}\n{1}'.format(
 
 setup(
     name='flake8-isort',
-    version='1.4.dev0',
+    version='2.0.dev0',
     description=short_description,
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -37,7 +37,7 @@ setup(
     test_suite='run_tests',
     zip_safe=False,
     install_requires=[
-        'flake8',
+        'flake8 >= 3.0.0',
         'isort',
         'testfixtures',
     ],

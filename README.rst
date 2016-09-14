@@ -32,7 +32,7 @@ or ``no-isort-config`` flake8 configuration option it can be disabled.
 
 Requirements
 ------------
-- Python 2.7, 3.3, 3.4
+- Python 2.7, 3.5
 - flake8
 - isort
 

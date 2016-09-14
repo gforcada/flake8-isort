@@ -3,11 +3,14 @@
 Changelog
 =========
 
-1.4 (unreleased)
+2.0 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Refactor code to handle flake8 version 3.
+  [danpalmer]
 
+- Require flake8 version 3.0.
+  [gforcada]
 
 1.3 (2016-06-20)
 ----------------
