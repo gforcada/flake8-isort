@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.0 (unreleased)
+2.0 (2016-09-14)
 ----------------
 
 - Refactor code to handle flake8 version 3.
