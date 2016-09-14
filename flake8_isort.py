@@ -14,7 +14,7 @@ except ImportError:
 
 class Flake8Isort(object):
     name = 'flake8_isort'
-    version = '0.1.1'
+    version = '2.0'
     isort_error_msg = ('I001 isort found deviations to configured sorting '
         'rules, run it on the file to fix this.')
     no_config_msg = ('I002 no configuration found (.isort.cfg or [isort] on '
