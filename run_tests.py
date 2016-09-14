@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
-from flake8.engine import get_style_guide
+try:
+    from flake8.engine import get_style_guide
+except ImportError:
+    from flake8.api.legacy import get_style_guide
+
 from flake8_isort import Flake8Isort
+from flake8_isort import IS_FLAKE8_3
 from tempfile import mkdtemp
 from testfixtures import OutputCapture
 
@@ -111,7 +116,12 @@ class TestFlake8Isort(unittest.TestCase):
         _argv = sys.argv
         try:
             sys.argv = ['', '--no-isort-config']
-            get_style_guide(parse_argv=True)  # parse arguments
+            if IS_FLAKE8_3:
+                from flake8.main import application
+                app = application.Application()
+                app.run(sys.argv)
+            else:
+                get_style_guide(parse_argv=True)  # parse arguments
             self.assertFalse(Flake8Isort.config_file)
         finally:
             sys.argv = _argv
