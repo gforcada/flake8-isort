@@ -5,6 +5,7 @@ except ImportError:
     from flake8.api.legacy import get_style_guide
 
 from flake8_isort import Flake8Isort
+from flake8_isort import IS_FLAKE8_3
 from tempfile import mkdtemp
 from testfixtures import OutputCapture
 
