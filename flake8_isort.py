@@ -18,7 +18,9 @@ except ImportError:
 
 import flake8
 
-IS_FLAKE8_3 = flake8.__version_info__ >= (3, 0, 0)
+FLAKE8_VERSION = tuple(int(i) for i in flake8.__version__.split('.')
+                       if i.isdigit())
+IS_FLAKE8_3 = FLAKE8_VERSION >= (3, 0, 0)
 
 
 class Flake8Isort(object):
