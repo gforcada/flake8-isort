@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+import pycodestyle
 from isort import SortImports
-from pycodestyle import stdin_get_value
+from flake8_polyfill import stdin
 from testfixtures import OutputCapture
 
 import os
@@ -10,6 +11,8 @@ try:
 except ImportError:
     from ConfigParser import ConfigParser
 
+
+stdin.monkey_patch('pycodestyle')
 
 
 class Flake8Isort(object):
@@ -48,7 +51,7 @@ class Flake8Isort(object):
             with OutputCapture():
                 if self.filename == 'stdin':
                     sort_result = SortImports(
-                        file_contents=stdin_get_value(),
+                        file_contents=pycodestyle.stdin_get_value(),
                         check=True,
                     )
                 else:
