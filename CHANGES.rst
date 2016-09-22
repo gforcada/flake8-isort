@@ -6,7 +6,8 @@ Changelog
 2.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix standard input processing.
+  [carljm]
 
 
 2.0 (2016-09-14)
