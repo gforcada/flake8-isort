@@ -3,8 +3,8 @@
 Changelog
 =========
 
-2.1 (unreleased)
-----------------
+2.0.1 (2016-09-22)
+------------------
 
 - Fix standard input processing.
   [carljm]
