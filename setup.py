@@ -17,6 +17,7 @@ setup(
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         'Development Status :: 3 - Alpha',
+        'Framework :: Flake8',
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Operating System :: OS Independent",
         'Programming Language :: Python',
