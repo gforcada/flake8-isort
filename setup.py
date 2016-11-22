@@ -43,6 +43,11 @@ setup(
         'isort',
         'testfixtures',
     ],
+    extras_require={
+        'test': [
+            'pytest',
+        ],
+    },
     entry_points={
         'flake8.extension': ['I00 = flake8_isort:Flake8Isort', ],
     },

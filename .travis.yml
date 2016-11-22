@@ -8,8 +8,7 @@ cache:
   directories:
     - $HOME/.cache/pip
 install:
-  - pip install -e .
-  - pip install pytest testfixtures
+  - pip install -e .[test]
 script:
   - python run_tests.py
 after_success:
