@@ -38,7 +38,7 @@ setup(
     test_suite='run_tests',
     zip_safe=False,
     install_requires=[
-        'flake8 >= 3.0.0',
+        'flake8 >= 3.2.1',
         'flake8-polyfill',
         'isort',
         'testfixtures',
