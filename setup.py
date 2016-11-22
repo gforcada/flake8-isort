@@ -18,8 +18,8 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Flake8',
-        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-        "Operating System :: OS Independent",
+        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+        'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
@@ -44,6 +44,6 @@ setup(
         'testfixtures',
     ],
     entry_points={
-        'flake8.extension': ['I00 = flake8_isort:Flake8Isort'],
+        'flake8.extension': ['I00 = flake8_isort:Flake8Isort', ],
     },
 )
