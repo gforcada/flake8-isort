@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.0.2 (unreleased)
+2.0.2 (2016-11-22)
 ------------------
 
 - Add flake8 classifier.
