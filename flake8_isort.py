@@ -17,7 +17,7 @@ stdin.monkey_patch('pycodestyle')
 
 class Flake8Isort(object):
     name = 'flake8_isort'
-    version = '2.0'
+    version = '2.0.3'
     isort_error_msg = (
         'I001 isort found deviations to configured sorting rules, '
         'run it on the file to fix this.'
