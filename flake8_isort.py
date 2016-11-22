@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import pycodestyle
 from isort import SortImports
 from flake8_polyfill import stdin
 from testfixtures import OutputCapture
 
 import os
+import pycodestyle
 
 try:
     from configparser import ConfigParser
@@ -18,10 +18,13 @@ stdin.monkey_patch('pycodestyle')
 class Flake8Isort(object):
     name = 'flake8_isort'
     version = '2.0'
-    isort_error_msg = ('I001 isort found deviations to configured sorting '
-        'rules, run it on the file to fix this.')
-    no_config_msg = ('I002 no configuration found (.isort.cfg or [isort] on '
-        'setup.cfg)')
+    isort_error_msg = (
+        'I001 isort found deviations to configured sorting rules, '
+        'run it on the file to fix this.'
+    )
+    no_config_msg = (
+        'I002 no configuration found (.isort.cfg or [isort] on setup.cfg)'
+    )
 
     config_file = None
 
