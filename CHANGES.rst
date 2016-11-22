@@ -6,8 +6,8 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Update trove classifiers.
+  [gforcada]
 
 2.0.2 (2016-11-22)
 ------------------
