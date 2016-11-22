@@ -6,8 +6,17 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
+- Add flake8 classifier.
+  [sigmavirus24]
+
 - Require flake8 3.2.1.
   flake8 series 3.1.x and 3.2.0 where not reporting flake8-isort errors.
+  [gforcada]
+
+- Test on pypy and pypy3.
+  [gforcada]
+
+- Fix tests and formatting.
   [gforcada]
 
 2.0.1 (2016-09-22)
