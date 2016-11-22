@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.0.3 (unreleased)
+2.0.3 (2016-11-22)
 ------------------
 
 - Update trove classifiers.
