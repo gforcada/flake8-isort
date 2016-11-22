@@ -6,8 +6,9 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Require flake8 3.2.1.
+  flake8 series 3.1.x and 3.2.0 where not reporting flake8-isort errors.
+  [gforcada]
 
 2.0.1 (2016-09-22)
 ------------------
