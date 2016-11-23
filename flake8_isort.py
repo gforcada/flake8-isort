@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from isort import SortImports
 from flake8_polyfill import stdin
+from isort import SortImports
 from testfixtures import OutputCapture
 
 import os
 import pycodestyle
+
 
 try:
     from configparser import ConfigParser
