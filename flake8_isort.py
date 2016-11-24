@@ -115,6 +115,7 @@ class Flake8Isort(object):
 
         """
 
+        self._fixup_sortimports_wrapped(sort_result)
         self._fixup_sortimports_eof(sort_result)
 
         differ = Differ()
@@ -157,3 +158,25 @@ class Flake8Isort(object):
                 else:
                     sort_imports.in_lines.append('')
                     return sort_imports
+
+    @staticmethod
+    def _fixup_sortimports_wrapped(sort_imports):
+        """Split-up wrapped imports newlines in `SortImports.out_lines`.
+
+        isort combines wrapped lines into a single list entry string in
+        `out_lines` whereas `in_lines` are separate strings so for diff
+        comparison these need to be comparable.
+
+        Args:
+            sort_imports (isort.SortImports): The isorts results object.
+
+        Returns:
+            isort.SortImports: The modified isort results object.
+
+        """
+
+        for idx, line in enumerate(sort_imports.out_lines):
+            if '\n ' in line:
+                for new_idx, new_line in enumerate(
+                        sort_imports.out_lines.pop(idx).splitlines()):
+                    sort_imports.out_lines.insert(idx + new_idx, new_line)

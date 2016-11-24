@@ -133,6 +133,18 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][1], 0)
             self.assertTrue(ret[0][2].startswith('I001 '))
 
+    def test_wrapped_imports(self):
+        file_path = self._given_a_file_in_test_dir(
+            'from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed,\n'
+            '                           ftime, get_path_size, is_infohash,\n'
+            '                           is_ip, is_magnet, is_url)\n',
+            isort_config='wrap_length=65'
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
     def test_isortcfg_found(self):
         # _given_a_file_in_test_dir already creates an .isort.cfg file
         file_path = self._given_a_file_in_test_dir(
