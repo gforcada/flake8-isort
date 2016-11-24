@@ -18,7 +18,7 @@ class TestFlake8Isort(unittest.TestCase):
             a_file.write(contents)
 
         with open(isort_path, 'w') as a_file:
-            a_file.write('[settings]')
+            a_file.write('[settings]\n')
             a_file.write(isort_config)
 
         return file_path
