@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.0.4 (unreleased)
+2.1.0 (unreleased)
 ------------------
 
 - Show the exact line and kind of error,
