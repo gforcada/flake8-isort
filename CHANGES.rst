@@ -6,8 +6,9 @@ Changelog
 2.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Show the exact line and kind of error,
+  rather than a generic message.
+  [cas--]
 
 2.0.3 (2016-11-22)
 ------------------
