@@ -139,10 +139,8 @@ class Flake8Isort(object):
     def _fixup_sortimports_eof(sort_imports):
         """Ensure single end-of-file newline in `isort.SortImports.in_lines`.
 
-        isort attempts to fix EOF blank lines but Flake8 will also flag them.
-        So that these EOF changes are ignored in the diff comparison ensure
-        that SortImports `in_lines` list has just the single EOF newline to
-        match `out_lines` list.
+        isort fixes EOF blank lines but this change should be suppressed as
+        Flake8 will also flag them.
 
         Args:
             sort_imports (isort.SortImports): The isorts results object.
@@ -153,11 +151,11 @@ class Flake8Isort(object):
         """
 
         for line in reversed(sort_imports.in_lines):
-                if not line.strip():
-                    sort_imports.in_lines.pop()
-                else:
-                    sort_imports.in_lines.append('')
-                    return sort_imports
+            if not line.strip():
+                sort_imports.in_lines.pop()
+            else:
+                sort_imports.in_lines.append('')
+                break
 
     @staticmethod
     def _fixup_sortimports_wrapped(sort_imports):
