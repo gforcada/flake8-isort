@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.1.0 (unreleased)
+2.1.0 (2016-11-24)
 ------------------
 
 - Show the exact line and kind of error,
