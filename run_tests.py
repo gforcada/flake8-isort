@@ -133,6 +133,16 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][1], 0)
             self.assertTrue(ret[0][2].startswith('I001 '))
 
+    def test_empty_file(self):
+        file_path = self._given_a_file_in_test_dir(
+            '\n\n',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
     def test_wrapped_imports(self):
         file_path = self._given_a_file_in_test_dir(
             'from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed,\n'

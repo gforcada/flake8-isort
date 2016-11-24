@@ -152,7 +152,9 @@ class Flake8Isort(object):
 
         for line in reversed(sort_imports.in_lines):
             if not line.strip():
-                sort_imports.in_lines.pop()
+                # If single empty line in in_lines, do nothing.
+                if len(sort_imports.in_lines) > 1:
+                    sort_imports.in_lines.pop()
             else:
                 sort_imports.in_lines.append('')
                 break
