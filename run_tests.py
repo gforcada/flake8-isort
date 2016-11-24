@@ -23,18 +23,101 @@ class TestFlake8Isort(unittest.TestCase):
 
         return file_path
 
-    def test_sorted_correctly(self):
+    def test_sorted_correctly_alpha(self):
         file_path = self._given_a_file_in_test_dir(
             'from sys import path\n'
             '\n'
-            'import os'
-            '\n',
+            'import os\n',
             isort_config='force_single_line=True\nforce_alphabetical_sort=True'
         )
         with OutputCapture():
             checker = Flake8Isort(None, file_path)
             ret = list(checker.run())
             self.assertEqual(ret, [])
+
+    def test_sorted_correctly_default(self):
+        file_path = self._given_a_file_in_test_dir(
+            'import os\n'
+            'from sys import path\n',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
+    def test_with_eof_blank_lines(self):
+        """Pass with eof blank line as flake8 will flag them"""
+        file_path = self._given_a_file_in_test_dir(
+            'import os\n'
+            'from sys import path\n'
+            '\n'
+            '\n'
+            '   \n',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
+    def test_imports_requires_blank_line(self):
+        file_path = self._given_a_file_in_test_dir(
+            'from __future__ import division\n'
+            'import threading\n'
+            'from sys import pid\n',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(len(ret), 1)
+            self.assertEqual(ret[0][0], 2)
+            self.assertEqual(ret[0][1], 0)
+            self.assertTrue(ret[0][2].startswith('I003 '))
+
+    def test_imports_unexpected_blank_line(self):
+        file_path = self._given_a_file_in_test_dir(
+            'from __future__ import division\n'
+            '\n'
+            'import threading\n'
+            '\n'
+            'from sys import pid\n',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(len(ret), 1)
+            self.assertEqual(ret[0][0], 4)
+            self.assertEqual(ret[0][1], 0)
+            self.assertTrue(ret[0][2].startswith('I004 '))
+
+    def test_sorted_incorrectly_multiple(self):
+        file_path = self._given_a_file_in_test_dir(
+            'from __future__ import division\n'
+            'import os\n'
+            'from sys import pid\n'
+            'import threading\n'
+            '\n'
+            'import isort\n'
+            '\n\n\n'
+            'def func()\n',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(len(ret), 3)
+            self.assertEqual(ret[0][0], 2)
+            self.assertEqual(ret[0][1], 0)
+            self.assertTrue(ret[0][2].startswith('I003 '))
+            self.assertEqual(ret[1][0], 4)
+            self.assertEqual(ret[1][1], 0)
+            self.assertTrue(ret[1][2].startswith('I001 '))
+            self.assertEqual(ret[2][0], 9)
+            self.assertEqual(ret[2][1], 0)
+            self.assertTrue(ret[2][2].startswith('I004 '))
 
     def test_sorted_incorrectly(self):
         file_path = self._given_a_file_in_test_dir(
@@ -46,12 +129,9 @@ class TestFlake8Isort(unittest.TestCase):
             checker = Flake8Isort(None, file_path)
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 0)
+            self.assertEqual(ret[0][0], 2)
             self.assertEqual(ret[0][1], 0)
-            self.assertIn(
-                'I001 ',
-                ret[0][2],
-            )
+            self.assertTrue(ret[0][2].startswith('I001 '))
 
     def test_isortcfg_found(self):
         # _given_a_file_in_test_dir already creates an .isort.cfg file
@@ -60,17 +140,15 @@ class TestFlake8Isort(unittest.TestCase):
             'import threading',
             isort_config='force_single_line=True'
         )
+
         with OutputCapture():
             checker = Flake8Isort(None, file_path)
             checker.config_file = True
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 0)
+            self.assertEqual(ret[0][0], 2)
             self.assertEqual(ret[0][1], 0)
-            self.assertIn(
-                'I001 ',
-                ret[0][2],
-            )
+            self.assertTrue(ret[0][2].startswith('I001 '))
 
     def test_isortcfg_not_found(self):
         file_path = self._given_a_file_in_test_dir(
@@ -90,10 +168,7 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            self.assertIn(
-                'I002 ',
-                ret[0][2],
-            )
+            self.assertTrue(ret[0][2].startswith('I002 '))
 
     def test_default_option(self):
         """By default a config file (.isort.cfg) is expected"""
