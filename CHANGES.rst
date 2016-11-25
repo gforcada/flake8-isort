@@ -6,8 +6,8 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix corner cases of isort: newlines and grouped imports.
+  [cas--]
 
 2.1.0 (2016-11-24)
 ------------------
