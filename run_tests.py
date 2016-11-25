@@ -155,6 +155,17 @@ class TestFlake8Isort(unittest.TestCase):
             ret = list(checker.run())
             self.assertEqual(ret, [])
 
+    def test_force_single_line_imports(self):
+        file_path = self._given_a_file_in_test_dir(
+            'from plone.app.testing import applyProfile\n'
+            'from plone.app.testing import FunctionalTesting\n',
+            isort_config='force_alphabetical_sort=True\nforce_single_line=True'
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
     def test_isortcfg_found(self):
         # _given_a_file_in_test_dir already creates an .isort.cfg file
         file_path = self._given_a_file_in_test_dir(

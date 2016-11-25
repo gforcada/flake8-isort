@@ -170,7 +170,7 @@ class Flake8Isort(object):
             isort.SortImports: The modified isort results object.
         """
         for idx, line in enumerate(sort_imports.out_lines):
-            if '\n ' in line:
+            if '\n' in line:
                 for new_idx, new_line in enumerate(
                         sort_imports.out_lines.pop(idx).splitlines()):
                     sort_imports.out_lines.insert(idx + new_idx, new_line)
