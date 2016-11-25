@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.1.1 (unreleased)
+2.1.1 (2016-11-25)
 ------------------
 
 - Fix corner cases of isort: newlines and grouped imports.
