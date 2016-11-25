@@ -6,8 +6,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix another corner case: ignored files.
+  [cas--]
 
 2.1.1 (2016-11-25)
 ------------------
