@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.1.2 (unreleased)
+2.1.2 (2016-11-25)
 ------------------
 
 - Fix another corner case: ignored files.
