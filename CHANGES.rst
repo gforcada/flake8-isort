@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.1.3 (unreleased)
+2.1.3 (2016-11-25)
 ------------------
 
 - Fix yet another corner case.
