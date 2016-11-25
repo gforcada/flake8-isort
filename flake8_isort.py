@@ -101,7 +101,7 @@ class Flake8Isort(object):
         return False
 
     def sortimports_linenum_msg(self, sort_result):
-        """Parses isort.SortImports for line number changes and message.
+        """Parses isort.SortImports for line number changes and message
 
         Uses a diff.Differ comparison of SortImport `in_lines`:`out_lines` to
         yield the line numbers of import lines that have been moved or blank
@@ -112,9 +112,7 @@ class Flake8Isort(object):
 
         Yields:
             tuple: A tuple of the specific isort line number and message.
-
         """
-
         self._fixup_sortimports_wrapped(sort_result)
         self._fixup_sortimports_eof(sort_result)
 
@@ -137,7 +135,7 @@ class Flake8Isort(object):
 
     @staticmethod
     def _fixup_sortimports_eof(sort_imports):
-        """Ensure single end-of-file newline in `isort.SortImports.in_lines`.
+        """Ensure single end-of-file newline in `isort.SortImports.in_lines`
 
         isort fixes EOF blank lines but this change should be suppressed as
         Flake8 will also flag them.
@@ -147,9 +145,7 @@ class Flake8Isort(object):
 
         Returns:
             isort.SortImports: The modified isort results object.
-
         """
-
         for line in reversed(sort_imports.in_lines):
             if not line.strip():
                 # If single empty line in in_lines, do nothing.
@@ -161,7 +157,7 @@ class Flake8Isort(object):
 
     @staticmethod
     def _fixup_sortimports_wrapped(sort_imports):
-        """Split-up wrapped imports newlines in `SortImports.out_lines`.
+        """Split-up wrapped imports newlines in `SortImports.out_lines`
 
         isort combines wrapped lines into a single list entry string in
         `out_lines` whereas `in_lines` are separate strings so for diff
@@ -172,9 +168,7 @@ class Flake8Isort(object):
 
         Returns:
             isort.SortImports: The modified isort results object.
-
         """
-
         for idx, line in enumerate(sort_imports.out_lines):
             if '\n ' in line:
                 for new_idx, new_line in enumerate(
