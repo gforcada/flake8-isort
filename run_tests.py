@@ -76,6 +76,16 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][1], 0)
             self.assertTrue(ret[0][2].startswith('I003 '))
 
+    def test_isortcfg_skip_file(self):
+        file_path = self._given_a_file_in_test_dir(
+            'skipped_file',
+            isort_config='skip=test.py'
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
     def test_imports_unexpected_blank_line(self):
         file_path = self._given_a_file_in_test_dir(
             'from __future__ import division\n'
