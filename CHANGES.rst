@@ -6,8 +6,8 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix yet another corner case.
+  [gforcada]
 
 2.1.2 (2016-11-25)
 ------------------
