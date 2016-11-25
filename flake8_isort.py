@@ -115,6 +115,7 @@ class Flake8Isort(object):
 
         """
 
+        self._fixup_sortimports_wrapped(sort_result)
         self._fixup_sortimports_eof(sort_result)
 
         differ = Differ()
@@ -138,10 +139,8 @@ class Flake8Isort(object):
     def _fixup_sortimports_eof(sort_imports):
         """Ensure single end-of-file newline in `isort.SortImports.in_lines`.
 
-        isort attempts to fix EOF blank lines but Flake8 will also flag them.
-        So that these EOF changes are ignored in the diff comparison ensure
-        that SortImports `in_lines` list has just the single EOF newline to
-        match `out_lines` list.
+        isort fixes EOF blank lines but this change should be suppressed as
+        Flake8 will also flag them.
 
         Args:
             sort_imports (isort.SortImports): The isorts results object.
@@ -152,8 +151,32 @@ class Flake8Isort(object):
         """
 
         for line in reversed(sort_imports.in_lines):
-                if not line.strip():
+            if not line.strip():
+                # If single empty line in in_lines, do nothing.
+                if len(sort_imports.in_lines) > 1:
                     sort_imports.in_lines.pop()
-                else:
-                    sort_imports.in_lines.append('')
-                    return sort_imports
+            else:
+                sort_imports.in_lines.append('')
+                break
+
+    @staticmethod
+    def _fixup_sortimports_wrapped(sort_imports):
+        """Split-up wrapped imports newlines in `SortImports.out_lines`.
+
+        isort combines wrapped lines into a single list entry string in
+        `out_lines` whereas `in_lines` are separate strings so for diff
+        comparison these need to be comparable.
+
+        Args:
+            sort_imports (isort.SortImports): The isorts results object.
+
+        Returns:
+            isort.SortImports: The modified isort results object.
+
+        """
+
+        for idx, line in enumerate(sort_imports.out_lines):
+            if '\n ' in line:
+                for new_idx, new_line in enumerate(
+                        sort_imports.out_lines.pop(idx).splitlines()):
+                    sort_imports.out_lines.insert(idx + new_idx, new_line)

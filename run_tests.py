@@ -18,7 +18,7 @@ class TestFlake8Isort(unittest.TestCase):
             a_file.write(contents)
 
         with open(isort_path, 'w') as a_file:
-            a_file.write('[settings]')
+            a_file.write('[settings]\n')
             a_file.write(isort_config)
 
         return file_path
@@ -132,6 +132,28 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][0], 2)
             self.assertEqual(ret[0][1], 0)
             self.assertTrue(ret[0][2].startswith('I001 '))
+
+    def test_empty_file(self):
+        file_path = self._given_a_file_in_test_dir(
+            '\n\n',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
+    def test_wrapped_imports(self):
+        file_path = self._given_a_file_in_test_dir(
+            'from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed,\n'
+            '                           ftime, get_path_size, is_infohash,\n'
+            '                           is_ip, is_magnet, is_url)\n',
+            isort_config='wrap_length=65'
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
 
     def test_isortcfg_found(self):
         # _given_a_file_in_test_dir already creates an .isort.cfg file
