@@ -35,8 +35,9 @@ class Flake8Isort(object):
 
     config_file = None
 
-    def __init__(self, tree, filename):
+    def __init__(self, tree, filename, search_current=True):
         self.filename = filename
+        self.search_current = search_current
 
     @classmethod
     def add_options(cls, parser):
@@ -98,7 +99,29 @@ class Flake8Isort(object):
                 if 'isort' in config.sections():
                     return True
 
+        if self.search_current:
+            return self.search_isort_config_at_current()
+
         return False
+
+    def search_isort_config_at_current(self):
+        """Search for isort configuration at current directory
+        """
+        isort_file = '{0}{1}.isort.cfg'.format(os.path.realpath('.'), os.sep)
+        if os.path.exists(isort_file):
+            return True
+
+        # If the setup file exists and has an "isort" section,
+        # then we've found the configuration.
+        setup_file = '{0}{1}setup.cfg'.format(os.path.realpath('.'), os.sep)
+        if os.path.exists(setup_file):
+            config = ConfigParser()
+            config.read(setup_file)
+            if 'isort' in config.sections():
+                return True
+
+        return False
+
 
     def sortimports_linenum_msg(self, sort_result):
         """Parses isort.SortImports for line number changes and message
