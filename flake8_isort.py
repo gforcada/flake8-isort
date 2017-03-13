@@ -122,7 +122,6 @@ class Flake8Isort(object):
 
         return False
 
-
     def sortimports_linenum_msg(self, sort_result):
         """Parses isort.SortImports for line number changes and message
 
