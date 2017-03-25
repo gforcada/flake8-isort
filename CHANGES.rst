@@ -9,6 +9,9 @@ Changelog
 - Support flake8 git hook.
   [sergio-alonso]
 
+- Support python 3.6.
+  [gforcada]
+
 2.1.3 (2016-11-25)
 ------------------
 
