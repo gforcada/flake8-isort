@@ -12,6 +12,9 @@ Changelog
 - Support python 3.6.
   [gforcada]
 
+- Search configuration on home folder.
+  [gforcada]
+
 2.1.3 (2016-11-25)
 ------------------
 
