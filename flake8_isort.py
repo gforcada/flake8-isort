@@ -2,6 +2,7 @@
 from difflib import Differ
 from flake8_polyfill import stdin
 from isort import SortImports
+from os.path import expanduser
 from testfixtures import OutputCapture
 
 import os
@@ -91,6 +92,11 @@ class Flake8Isort(object):
 
         if self.search_current:
             return self.search_isort_config_at_current()
+
+        # last attempt, check home folder
+        home = expanduser('~')
+        if self._search_config_on_path(home):
+            return True
 
         return False
 
