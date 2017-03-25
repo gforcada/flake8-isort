@@ -86,18 +86,8 @@ class Flake8Isort(object):
             partial_parts = path_parts[:dirs_missing]
             partial_path = os.sep.join(partial_parts)
 
-            isort_file = '{0}{1}.isort.cfg'.format(partial_path, os.sep)
-            if os.path.exists(isort_file):
+            if self._search_config_on_path(partial_path):
                 return True
-
-            # If the setup file exists and has an "isort" section,
-            # then we've found the configuration.
-            setup_file = '{0}{1}setup.cfg'.format(partial_path, os.sep)
-            if os.path.exists(setup_file):
-                config = ConfigParser()
-                config.read(setup_file)
-                if 'isort' in config.sections():
-                    return True
 
         if self.search_current:
             return self.search_isort_config_at_current()
@@ -105,15 +95,17 @@ class Flake8Isort(object):
         return False
 
     def search_isort_config_at_current(self):
-        """Search for isort configuration at current directory
-        """
-        isort_file = '{0}{1}.isort.cfg'.format(os.path.realpath('.'), os.sep)
+        """Search for isort configuration at current directory"""
+        return self._search_config_on_path(os.path.realpath('.'))
+
+    def _search_config_on_path(self, path):
+        isort_file = '{0}{1}.isort.cfg'.format(path, os.sep)
         if os.path.exists(isort_file):
             return True
 
         # If the setup file exists and has an "isort" section,
         # then we've found the configuration.
-        setup_file = '{0}{1}setup.cfg'.format(os.path.realpath('.'), os.sep)
+        setup_file = '{0}{1}setup.cfg'.format(path, os.sep)
         if os.path.exists(setup_file):
             config = ConfigParser()
             config.read(setup_file)
