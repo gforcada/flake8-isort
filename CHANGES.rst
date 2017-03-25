@@ -3,8 +3,8 @@
 Changelog
 =========
 
-2.1.4 (unreleased)
-------------------
+2.2 (2017-03-26)
+----------------
 
 - Support flake8 git hook.
   [sergio-alonso]
