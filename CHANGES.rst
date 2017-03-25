@@ -6,8 +6,8 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Support flake8 git hook.
+  [sergio-alonso]
 
 2.1.3 (2016-11-25)
 ------------------
