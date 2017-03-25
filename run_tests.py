@@ -205,7 +205,7 @@ class TestFlake8Isort(unittest.TestCase):
         os.remove(isortcfg_path)
 
         with OutputCapture():
-            checker = Flake8Isort(None, file_path)
+            checker = Flake8Isort(None, file_path, search_current=False)
             checker.config_file = True
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
