@@ -5,9 +5,7 @@ python:
   - '3.6'
   - 'pypy'
   - 'pypy3'
-cache:
-  directories:
-    - $HOME/.cache/pip
+cache: pip
 install:
   - pip install -e .[test]
 script:
