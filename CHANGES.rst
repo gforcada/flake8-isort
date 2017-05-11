@@ -6,8 +6,8 @@ Changelog
 2.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Release as universal wheel.
+  [gforcada]
 
 2.2 (2017-03-26)
 ----------------
