@@ -3,8 +3,8 @@
 Changelog
 =========
 
-2.3 (unreleased)
-----------------
+2.2.1 (2017-05-12)
+------------------
 
 - Release as universal wheel.
   [gforcada]
