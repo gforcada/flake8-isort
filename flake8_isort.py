@@ -10,9 +10,9 @@ import pycodestyle
 
 
 try:
-    from configparser import ConfigParser
+    from configparser import SafeConfigParser
 except ImportError:
-    from ConfigParser import ConfigParser
+    from ConfigParser import SafeConfigParser
 
 
 stdin.monkey_patch('pycodestyle')
@@ -25,7 +25,7 @@ class Flake8Isort(object):
         'I001 isort found an import in the wrong position'
     )
     no_config_msg = (
-        'I002 no configuration found (.isort.cfg or [isort] on setup.cfg)'
+        'I002 no configuration found (.isort.cfg or [isort] in configs)'
     )
     isort_blank_req = (
         'I003 isort expected 1 blank line in imports, found 0'
@@ -75,8 +75,8 @@ class Flake8Isort(object):
     def search_isort_config(self):
         """Search for isort configuration all the way up to the root folder
 
-        Either on ``.isort.cfg`` file or an ``[isort]`` section on
-        ``setup.cfg``.
+        Looks for ``.isort.cfg``, ``.editorconfig`` or ``[isort]`` section in
+        ``setup.cfg`` or ``tox.ini`` config files.
         """
         full_path = os.path.abspath(self.filename)
         path_parts = full_path.split(os.path.sep)
@@ -105,18 +105,25 @@ class Flake8Isort(object):
         return self._search_config_on_path(os.path.realpath('.'))
 
     def _search_config_on_path(self, path):
-        isort_file = '{0}{1}.isort.cfg'.format(path, os.sep)
-        if os.path.exists(isort_file):
-            return True
+        """Search for isort configuration files at the specifed path.
 
-        # If the setup file exists and has an "isort" section,
-        # then we've found the configuration.
-        setup_file = '{0}{1}setup.cfg'.format(path, os.sep)
-        if os.path.exists(setup_file):
-            config = ConfigParser()
-            config.read(setup_file)
-            if 'isort' in config.sections():
+        Args:
+            path: The path to search for config files on.
+
+        Return:
+            bool: True if isort config details found, otherwise False.
+        """
+        for config_file in ('.isort.cfg', '.editorconfig'):
+            if os.path.isfile(os.path.join(path, config_file)):
                 return True
+
+        # Check for '[isort]' section in other configuration files.
+        config_files = ['tox.ini', 'setup.cfg']
+        config_filepaths = [os.path.join(path, f) for f in config_files]
+        config = SafeConfigParser()
+        config.read(config_filepaths)
+        if 'isort' in config.sections():
+            return True
 
         return False
 
