@@ -79,16 +79,11 @@ class Flake8Isort(object):
         ``setup.cfg`` or ``tox.ini`` config files.
         """
         full_path = os.path.abspath(self.filename)
-        path_parts = full_path.split(os.path.sep)
-        dirs_missing = len(path_parts)
-
-        while dirs_missing > 0:
-            dirs_missing -= 1
-            partial_parts = path_parts[:dirs_missing]
-            partial_path = os.sep.join(partial_parts)
-
-            if self._search_config_on_path(partial_path):
+        split_path = (os.path.dirname(full_path), True)
+        while split_path[1]:
+            if self._search_config_on_path(split_path[0]):
                 return True
+            split_path = os.path.split(split_path[0])
 
         if self.search_current:
             return self.search_isort_config_at_current()
