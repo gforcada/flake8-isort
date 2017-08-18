@@ -86,6 +86,19 @@ class TestFlake8Isort(unittest.TestCase):
             ret = list(checker.run())
             self.assertEqual(ret, [])
 
+    def test_file_skipped_with_comment(self):
+        # Note: files skipped in this way are not marked as
+        # "skipped" by isort <= 4.2.15, so we handle them in a
+        # different code path and test to ensure they also work.
+        file_path = self._given_a_file_in_test_dir(
+            '# isort:skip_file',
+            isort_config=''
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path)
+            ret = list(checker.run())
+            self.assertEqual(ret, [])
+
     def test_imports_unexpected_blank_line(self):
         file_path = self._given_a_file_in_test_dir(
             'from __future__ import division\n'
