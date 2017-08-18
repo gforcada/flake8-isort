@@ -133,7 +133,7 @@ class Flake8Isort(object):
         Yields:
             tuple: A tuple of the specific isort line number and message.
         """
-        if sort_result.skipped:
+        if self.should_stop_processing(sort_result):
             raise StopIteration
 
         self._fixup_sortimports_wrapped(sort_result)
@@ -155,6 +155,26 @@ class Flake8Isort(object):
             elif line.strip() == '+':
                 # Include newline additions but do not increment line_num.
                 yield line_num + 1, self.isort_blank_req
+
+    def should_stop_processing(self, sort_result):
+        """
+        Returns whether the results should be processed.
+
+        isort marks skipped files with "skipped" in the results, but in some
+        versions fails to mark a particular class of skipped files, so these
+        are checked manually.
+
+        The bug in isort is fixed by:
+        https://github.com/timothycrosley/isort/pull/588
+        """
+
+        in_lines = getattr(sort_result, 'in_lines', False)
+        out_lines = getattr(sort_result, 'out_lines', False)
+
+        if not in_lines or not out_lines:
+            return True
+
+        return sort_result.skipped
 
     @staticmethod
     def _fixup_sortimports_eof(sort_imports):
