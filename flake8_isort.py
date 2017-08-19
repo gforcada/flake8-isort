@@ -167,7 +167,6 @@ class Flake8Isort(object):
         The bug in isort is fixed by:
         https://github.com/timothycrosley/isort/pull/588
         """
-
         in_lines = getattr(sort_result, 'in_lines', False)
         out_lines = getattr(sort_result, 'out_lines', False)
 
