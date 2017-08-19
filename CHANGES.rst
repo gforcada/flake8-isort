@@ -8,6 +8,11 @@ Changelog
 
 - Nothing changed yet.
 
+2.2.2 (2017-08-19)
+------------------
+
+- Workaround for isort bug when skipping files.
+  [danpalmer]
 
 2.2.1 (2017-05-12)
 ------------------
