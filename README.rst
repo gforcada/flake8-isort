@@ -36,7 +36,7 @@ Requirements
 - flake8
 - isort
 
-Relaion to flake8-import-order
+Relation to flake8-import-order
 ------------------------------
 
 As an alternative to this flake8 plugin, there's `flake8-import-order`_ that could be worth checking out. In contrast to this plugin that defers all logic to isort, the flake8-import-order comes bundled with it's own logic. 
