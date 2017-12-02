@@ -6,8 +6,9 @@ short_description = 'flake8 plugin that integrates isort .'
 
 long_description = '{0}\n{1}'.format(
     open('README.rst').read(),
-    open('CHANGES.rst').read()
+    open('CHANGES.rst').read(),
 )
+
 
 setup(
     name='flake8-isort',
@@ -17,7 +18,9 @@ setup(
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         'Development Status :: 5 - Production/Stable',
+        'Environment :: Console',
         'Framework :: Flake8',
+        'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
@@ -28,6 +31,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
+        'Topic :: Software Development',
         'Topic :: Software Development :: Quality Assurance',
     ],
     keywords='pep8 flake8 isort imports',
