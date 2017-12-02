@@ -20,7 +20,7 @@ stdin.monkey_patch('pycodestyle')
 
 class Flake8Isort(object):
     name = 'flake8_isort'
-    version = '2.1.3'
+    version = '2.3'
     isort_unsorted = (
         'I001 isort found an import in the wrong position'
     )
