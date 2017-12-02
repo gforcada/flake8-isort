@@ -6,8 +6,11 @@ Changelog
 2.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix typo.
+  [paltman]
 
+- Add tox.ini and .editorconfig to config search.
+  [cas--]
 
 2.2.2 (2017-08-19)
 ------------------
