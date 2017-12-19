@@ -57,7 +57,8 @@ class Flake8Isort(object):
             cls.config_file = False
 
     def run(self):
-        if self.config_file and not self.search_isort_config():
+        settings_file = self.search_isort_config()
+        if self.config_file and not settings_file:
             yield 0, 0, self.no_config_msg, type(self)
         else:
             with OutputCapture():
@@ -65,14 +66,20 @@ class Flake8Isort(object):
                     sort_result = SortImports(
                         file_contents=pycodestyle.stdin_get_value(),
                         check=True,
+                        settings_path=settings_file
                     )
                 else:
-                    sort_result = SortImports(self.filename, check=True)
+                    sort_result = SortImports(
+                        self.filename,
+                        check=True,
+                        settings_path=settings_file
+                    )
 
             for line_num, message in self.sortimports_linenum_msg(sort_result):
                 yield line_num, 0, message, type(self)
 
     def search_isort_config(self):
+        # type: () -> Optional[str]
         """Search for isort configuration all the way up to the root folder
 
         Looks for ``.isort.cfg``, ``.editorconfig`` or ``[isort]`` section in
@@ -81,8 +88,9 @@ class Flake8Isort(object):
         full_path = os.path.abspath(self.filename)
         split_path = (os.path.dirname(full_path), True)
         while split_path[1]:
-            if self._search_config_on_path(split_path[0]):
-                return True
+            config_on_file = self._search_config_on_path(split_path[0])
+            if config_on_file:
+                return config_on_file
             split_path = os.path.split(split_path[0])
 
         if self.search_current:
@@ -90,37 +98,41 @@ class Flake8Isort(object):
 
         # last attempt, check home folder
         home = expanduser('~')
-        if self._search_config_on_path(home):
-            return True
+        config_on_home = self._search_config_on_path(home)
+        if config_on_home:
+            return config_on_home
 
-        return False
+        return None
 
     def search_isort_config_at_current(self):
+        # type: () -> Optional[str]
         """Search for isort configuration at current directory"""
         return self._search_config_on_path(os.path.realpath('.'))
 
     def _search_config_on_path(self, path):
+        # type: (str) -> Optional[str]
         """Search for isort configuration files at the specifed path.
 
         Args:
             path: The path to search for config files on.
 
         Return:
-            bool: True if isort config details found, otherwise False.
+            str: the isort config if found otherwise, None
         """
         for config_file in ('.isort.cfg', '.editorconfig'):
-            if os.path.isfile(os.path.join(path, config_file)):
-                return True
+            config_file_path = os.path.join(path, config_file)
+            if os.path.isfile(config_file_path):
+                return config_file_path
 
         # Check for '[isort]' section in other configuration files.
-        config_files = ['tox.ini', 'setup.cfg']
-        config_filepaths = [os.path.join(path, f) for f in config_files]
-        config = SafeConfigParser()
-        config.read(config_filepaths)
-        if 'isort' in config.sections():
-            return True
+        for config_file in ('tox.ini', 'setup.cfg'):
+            config_file_path = os.path.join(path, config_file)
+            config = SafeConfigParser()
+            config.read(config_file_path)
+            if 'isort' in config.sections():
+                return config_file_path
 
-        return False
+        return None
 
     def sortimports_linenum_msg(self, sort_result):
         """Parses isort.SortImports for line number changes and message
