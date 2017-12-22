@@ -12,6 +12,11 @@ Changelog
 - Add tox.ini and .editorconfig to config search.
   [cas--]
 
+- Make this plugin compatible with flake8 hook.
+  As the hook copies the files out of tree,
+  flake8-isort never finds the correct configuration.
+  [jaysonsantos]
+
 2.2.2 (2017-08-19)
 ------------------
 
