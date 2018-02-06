@@ -7,12 +7,13 @@ from testfixtures import OutputCapture
 
 import os
 import pycodestyle
+import sys
 
 
 try:
-    from configparser import ConfigParser as SafeConfigParser
+    import configparser
 except ImportError:
-    from ConfigParser import SafeConfigParser
+    import ConfigParser as configparser
 
 
 stdin.monkey_patch('pycodestyle')
@@ -124,10 +125,16 @@ class Flake8Isort(object):
             if os.path.isfile(config_file_path):
                 return config_file_path
 
+        if sys.version_info >= (3, 2):
+            ConfigParser = configparser.ConfigParser
+        else:
+            # Backwards compatibility with Python 2.7
+            ConfigParser = configparser.SafeConfigParser
+
         # Check for '[isort]' section in other configuration files.
         for config_file in ('tox.ini', 'setup.cfg'):
             config_file_path = os.path.join(path, config_file)
-            config = SafeConfigParser()
+            config = ConfigParser()
             config.read(config_file_path)
             if 'isort' in config.sections():
                 return config_file_path
