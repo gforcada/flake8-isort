@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 from difflib import Differ
-from flake8_polyfill import stdin
 from isort import SortImports
 from os.path import expanduser
 from testfixtures import OutputCapture
 
 import os
-import pycodestyle
 
 
 try:
     from configparser import ConfigParser as SafeConfigParser
 except ImportError:
     from ConfigParser import SafeConfigParser
-
-
-stdin.monkey_patch('pycodestyle')
 
 
 class Flake8Isort(object):
