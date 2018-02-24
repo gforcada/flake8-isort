@@ -45,7 +45,6 @@ setup(
     zip_safe=False,
     install_requires=[
         'flake8 >= 3.2.1',
-        'flake8-polyfill',
         'isort',
         'testfixtures',
     ],
