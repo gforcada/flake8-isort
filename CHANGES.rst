@@ -3,6 +3,12 @@
 Changelog
 =========
 
+2.5 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 2.4 (2018-02-25)
 ----------------
 
