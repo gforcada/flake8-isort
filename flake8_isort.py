@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 from difflib import Differ
-from flake8_polyfill import stdin
 from isort import SortImports
 from os.path import expanduser
 from testfixtures import OutputCapture
 
 import os
-import pycodestyle
 
 
 try:
     from configparser import ConfigParser as SafeConfigParser
 except ImportError:
     from ConfigParser import SafeConfigParser
-
-
-stdin.monkey_patch('pycodestyle')
 
 
 class Flake8Isort(object):
@@ -36,8 +31,9 @@ class Flake8Isort(object):
 
     config_file = None
 
-    def __init__(self, tree, filename, search_current=True):
+    def __init__(self, tree, filename, lines, search_current=True):
         self.filename = filename
+        self.lines = lines
         self.search_current = search_current
 
     @classmethod
@@ -62,18 +58,12 @@ class Flake8Isort(object):
             yield 0, 0, self.no_config_msg, type(self)
         else:
             with OutputCapture():
-                if self.filename == 'stdin':
-                    sort_result = SortImports(
-                        file_contents=pycodestyle.stdin_get_value(),
-                        check=True,
-                        settings_path=settings_file
-                    )
-                else:
-                    sort_result = SortImports(
-                        self.filename,
-                        check=True,
-                        settings_path=settings_file
-                    )
+                sort_result = SortImports(
+                    file_path=self.filename,
+                    file_contents=''.join(self.lines),
+                    check=True,
+                    settings_path=settings_file
+                )
 
             for line_num, message in self.sortimports_linenum_msg(sort_result):
                 yield line_num, 0, message, type(self)

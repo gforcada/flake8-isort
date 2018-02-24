@@ -3,10 +3,15 @@
 Changelog
 =========
 
-2.3.1 (unreleased)
+2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix input handling with flake8's --stdin-display-name, and simplify it.
+  [blueyed]
+
+- Remove flake8-polyfill dependency.  flake8 >= 3.2.1 is required already, and
+  stdin is not read directly anymore.
+  [blueyed]
 
 
 2.3 (2017-12-22)
