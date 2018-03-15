@@ -138,7 +138,7 @@ class Flake8Isort(object):
             tuple: A tuple of the specific isort line number and message.
         """
         if sort_result.skipped:
-            raise StopIteration
+            return
 
         self._fixup_sortimports_wrapped(sort_result)
         self._fixup_sortimports_eof(sort_result)
