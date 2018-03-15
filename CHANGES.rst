@@ -6,7 +6,8 @@ Changelog
 2.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Now requires isort >= 4.3.0.
+  [jleclanche]
 
 
 2.4 (2018-02-25)
