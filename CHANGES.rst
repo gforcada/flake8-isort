@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.5 (unreleased)
+2.5 (2018-03-15)
 ----------------
 
 - Now requires isort >= 4.3.0.
