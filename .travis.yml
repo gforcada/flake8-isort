@@ -10,8 +10,8 @@ install:
   - pip install -e .[test]
 script:
   - flake8 *.py
-  - python run_tests.py
+  - pytest run_tests.py
 after_success:
   - pip install -q coverage==3.7.1 coveralls pytest-cov
-  - py.test run_tests.py --cov flake8_isort --cov-report term-missing
+  - pytest run_tests.py --cov flake8_isort --cov-report term-missing
   - coveralls

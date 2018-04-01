@@ -249,7 +249,3 @@ class TestFlake8Isort(unittest.TestCase):
             app = application.Application()
             app.run(['--no-isort-config', file_path, ])
             self.assertFalse(Flake8Isort.config_file)
-
-
-if __name__ == '__main__':
-    unittest.main()
