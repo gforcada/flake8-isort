@@ -1,6 +1,6 @@
 .. -*- coding: utf-8 -*-
 
-Changelog
+ChangeLog
 =========
 
 2.5.1 (unreleased)
