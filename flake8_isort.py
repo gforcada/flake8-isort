@@ -28,6 +28,9 @@ class Flake8Isort(object):
     isort_blank_unexp = (
         'I004 isort found an unexpected blank line in imports'
     )
+    isort_add_unexp = (
+        'I005 isort found an unexpected missing import'
+    )
 
     config_file = None
 
@@ -147,6 +150,9 @@ class Flake8Isort(object):
         diff = differ.compare(sort_result.in_lines, sort_result.out_lines)
 
         line_num = 0
+        additions = {
+            '+ {}'.format(add_import) for add_import in sort_result.add_imports
+        }
         for line in diff:
             if line.startswith('  ', 0, 2):
                 line_num += 1  # Ignore unchanged lines but increment line_num.
@@ -159,6 +165,8 @@ class Flake8Isort(object):
             elif line.strip() == '+':
                 # Include newline additions but do not increment line_num.
                 yield line_num + 1, self.isort_blank_req
+            elif line.strip() in additions:
+                yield line_num + 1, self.isort_add_unexp
 
     @staticmethod
     def _fixup_sortimports_eof(sort_imports):
@@ -173,8 +181,9 @@ class Flake8Isort(object):
         Returns:
             isort.SortImports: The modified isort results object.
         """
+        to_remove = {''} | set(sort_imports.add_imports)
         for line in reversed(sort_imports.in_lines):
-            if not line.strip():
+            if line.strip() in to_remove:
                 # If single empty line in in_lines, do nothing.
                 if len(sort_imports.in_lines) > 1:
                     sort_imports.in_lines.pop()
