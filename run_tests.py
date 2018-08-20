@@ -189,6 +189,22 @@ class TestFlake8Isort(unittest.TestCase):
             ret = list(checker.run())
             self.assertEqual(ret, [])
 
+    def test_missing_add_imports(self):
+        (file_path, lines) = self._given_a_file_in_test_dir(
+            'import os',
+            isort_config='add_imports=from __future__ import unicode_literals'
+        )
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path, lines)
+            ret = list(checker.run())
+            self.assertEqual(len(ret), 2)
+            self.assertEqual(ret[0][0], 1)
+            self.assertEqual(ret[0][1], 0)
+            self.assertTrue(ret[0][2].startswith('I005 '))
+            self.assertEqual(ret[1][0], 1)
+            self.assertEqual(ret[1][1], 0)
+            self.assertTrue(ret[1][2].startswith('I003 '))
+
     def test_isortcfg_found(self):
         # _given_a_file_in_test_dir already creates an .isort.cfg file
         (file_path, lines) = self._given_a_file_in_test_dir(
