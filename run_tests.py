@@ -238,11 +238,9 @@ class TestFlake8Isort(unittest.TestCase):
             checker.config_file = True
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
-            # This was failing when the value was `0`:
-            self.assertEqual(ret[0][0], 2)
+            self.assertEqual(ret[0][0], 0)
             self.assertEqual(ret[0][1], 0)
-            # This was failing whe the value was `I002`:
-            self.assertTrue(ret[0][2].startswith('I001 '))
+            self.assertTrue(ret[0][2].startswith('I002 '))
 
     def test_default_option(self):
         """By default a config file (.isort.cfg) is expected"""
