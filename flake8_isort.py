@@ -60,16 +60,19 @@ class Flake8Isort(object):
         if self.config_file and not settings_file:
             yield 0, 0, self.no_config_msg, type(self)
         else:
-            with OutputCapture():
+            with OutputCapture() as buffer:
                 sort_result = SortImports(
                     file_path=self.filename,
                     file_contents=''.join(self.lines),
                     check=True,
-                    settings_path=settings_file
+                    settings_path=settings_file,
+                    show_diff=True,
                 )
 
+            traceback = self._format_isort_output(buffer)
+
             for line_num, message in self.sortimports_linenum_msg(sort_result):
-                yield line_num, 0, message, type(self)
+                yield line_num, 0, message + traceback, type(self)
 
     def search_isort_config(self):
         # type: () -> Optional[str]
@@ -167,6 +170,23 @@ class Flake8Isort(object):
                 yield line_num + 1, self.isort_blank_req
             elif line.strip() in additions:
                 yield line_num + 1, self.isort_add_unexp
+
+    def _format_isort_output(self, isort_buffer):
+        filtering_out = ('+++', '---', '@@', 'ERROR:')
+
+        valid_lines = ['']
+        valid_lines += [
+            line
+            for line in isort_buffer.output.getvalue().splitlines()
+            if line.strip().split(' ', 1)[0] not in filtering_out
+        ]
+
+        # Normalizing newlines:
+        if len(valid_lines) > 1:
+            valid_lines.insert(1, '')
+        valid_lines.append('')
+
+        return '\n'.join(valid_lines)
 
     @staticmethod
     def _fixup_sortimports_eof(sort_imports):

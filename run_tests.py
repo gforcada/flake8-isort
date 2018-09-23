@@ -238,9 +238,11 @@ class TestFlake8Isort(unittest.TestCase):
             checker.config_file = True
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 0)
+            # This was failing when the value was `0`:
+            self.assertEqual(ret[0][0], 2)
             self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I002 '))
+            # This was failing whe the value was `I002`:
+            self.assertTrue(ret[0][2].startswith('I001 '))
 
     def test_default_option(self):
         """By default a config file (.isort.cfg) is expected"""
@@ -265,3 +267,21 @@ class TestFlake8Isort(unittest.TestCase):
             app = application.Application()
             app.run(['--no-isort-config', file_path, ])
             self.assertFalse(Flake8Isort.config_file)
+
+    def test_isort_formatted_output(self):
+        (file_path, lines) = self._given_a_file_in_test_dir(
+            'from __future__ import division\n'
+            'import os\n'
+            'from sys import pid\n',
+            isort_config=''
+        )
+
+        diff = ' from __future__ import division\n+\n import os'
+
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path, lines)
+            ret = list(checker.run())
+            self.assertEqual(len(ret), 1)
+            self.assertEqual(ret[0][0], 2)
+            self.assertEqual(ret[0][1], 0)
+            self.assertIn(diff, ret[0][2])
