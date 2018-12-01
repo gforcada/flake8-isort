@@ -30,6 +30,10 @@ This potentially avoids to lint a project that has no formal definition of how i
 With either ``--no-isort-config`` command line switch,
 or ``no-isort-config`` flake8 configuration option it can be disabled.
 
+Since version 2.6 we introduce new ``--isort-show-traceback`` option.
+It is used to show verbose multi-line output from ``isort``.
+By default it is turned off.
+
 Requirements
 ------------
 - Python 2.7, 3.5, 3.6, pypy or pypy3
@@ -39,7 +43,7 @@ Requirements
 Relation to flake8-import-order
 -------------------------------
 
-As an alternative to this flake8 plugin, there's `flake8-import-order`_ that could be worth checking out. In contrast to this plugin that defers all logic to isort, the flake8-import-order comes bundled with it's own logic. 
+As an alternative to this flake8 plugin, there's `flake8-import-order`_ that could be worth checking out. In contrast to this plugin that defers all logic to isort, the flake8-import-order comes bundled with it's own logic.
 
 flake8-import-order comes with a few predefined set of styles meanwhile this plugin can be customized a bit more. But the biggest difference could lie in that flake8-isort actually has the corresponding sorting engine isort that can sort the import orders of your existing python files. Meanwhile flake8-import-order has no such corresponding tool, hence big existing projects who want to adopt either would get a more automized experience choosing flake8-isort.
 

@@ -6,7 +6,8 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add ``isort_show_traceback`` option to show verbose multi-line output
+  from ``isort``, turned off by default
 
 
 2.5 (2018-03-15)
