@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.5.1 (unreleased)
+2.6.0 (2018-12-01)
 ------------------
 
 - Use pytest to run tests.
