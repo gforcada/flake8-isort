@@ -4,6 +4,7 @@ from flake8_isort import Flake8Isort
 from tempfile import mkdtemp
 from testfixtures import OutputCapture
 
+import collections
 import os
 import unittest
 
@@ -267,6 +268,10 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertFalse(Flake8Isort.config_file)
 
     def test_isort_formatted_output(self):
+        options = collections.namedtuple(
+            'Options', ['no_isort_config', 'isort_show_traceback']
+        )
+
         (file_path, lines) = self._given_a_file_in_test_dir(
             'from __future__ import division\n'
             'import os\n'
@@ -278,6 +283,7 @@ class TestFlake8Isort(unittest.TestCase):
 
         with OutputCapture():
             checker = Flake8Isort(None, file_path, lines)
+            checker.parse_options(options(None, True))
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 2)

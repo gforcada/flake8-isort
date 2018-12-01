@@ -33,6 +33,7 @@ class Flake8Isort(object):
     )
 
     config_file = None
+    show_traceback = False
 
     def __init__(self, tree, filename, lines, search_current=True):
         self.filename = filename
@@ -48,12 +49,21 @@ class Flake8Isort(object):
             help='Do not require explicit configuration to be found'
         )
 
+        parser.add_option(
+            '--isort-show-traceback',
+            action='store_true',
+            parse_from_config=True,
+            help='Show full traceback with diff from isort'
+        )
+
     @classmethod
     def parse_options(cls, options):
         if options.no_isort_config is None:
             cls.config_file = True
         else:
             cls.config_file = False
+
+        cls.show_traceback = options.isort_show_traceback
 
     def run(self):
         settings_file = self.search_isort_config()
@@ -72,7 +82,9 @@ class Flake8Isort(object):
             traceback = self._format_isort_output(buffer)
 
             for line_num, message in self.sortimports_linenum_msg(sort_result):
-                yield line_num, 0, message + traceback, type(self)
+                if self.show_traceback:
+                    message += traceback
+                yield line_num, 0, message, type(self)
 
     def search_isort_config(self):
         # type: () -> Optional[str]
