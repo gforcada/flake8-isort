@@ -6,9 +6,15 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
+- Use pytest to run tests.
+  [gforcada]
+
+- New error code I005 isort foundan unexpected missing import.
+  [charettes]
+
 - Add ``isort_show_traceback`` option to show verbose multi-line output
   from ``isort``, turned off by default
-
+  [sobolevn]
 
 2.5 (2018-03-15)
 ----------------
