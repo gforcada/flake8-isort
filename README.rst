@@ -35,7 +35,7 @@ It is used to show verbose multi-line output from ``isort``.
 By default it is turned off.
 
 Error codes
--------
+-----------
 +------------+-----------------------------------------------------------+
 | Error code | Description                                               |
 +============+===========================================================+
