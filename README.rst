@@ -34,6 +34,22 @@ Since version 2.6 we introduce new ``--isort-show-traceback`` option.
 It is used to show verbose multi-line output from ``isort``.
 By default it is turned off.
 
+Error codes
+-----------
++------------+-----------------------------------------------------------+
+| Error code | Description                                               |
++============+===========================================================+
+| I001       | isort found an import in the wrong position               |
++------------+-----------------------------------------------------------+
+| I002       | no configuration found (.isort.cfg or [isort] in configs) |
++------------+-----------------------------------------------------------+
+| I003       | isort expected 1 blank line in imports, found 0           |
++------------+-----------------------------------------------------------+
+| I004       | isort found an unexpected blank line in imports           |
++------------+-----------------------------------------------------------+
+| I005       | isort found an unexpected missing import                  |
++------------+-----------------------------------------------------------+
+
 Requirements
 ------------
 - Python 2.7, 3.5, 3.6, pypy or pypy3
