@@ -34,6 +34,7 @@ class Flake8Isort(object):
 
     config_file = None
     show_traceback = False
+    stdin_display_name = None
 
     def __init__(self, tree, filename, lines, search_current=True):
         self.filename = filename
@@ -63,6 +64,7 @@ class Flake8Isort(object):
         else:
             cls.config_file = False
 
+        cls.stdin_display_name = options.stdin_display_name
         cls.show_traceback = options.isort_show_traceback
 
     def run(self):
@@ -70,15 +72,18 @@ class Flake8Isort(object):
         if self.config_file and not settings_file:
             yield 0, 0, self.no_config_msg, type(self)
         else:
+            if self.filename is not self.stdin_display_name:
+                file_path = self.filename
+            else:
+                file_path = None
             with OutputCapture() as buffer:
                 sort_result = SortImports(
-                    file_path=self.filename,
+                    file_path=file_path,
                     file_contents=''.join(self.lines),
                     check=True,
                     settings_path=settings_file,
                     show_diff=True,
                 )
-
             traceback = self._format_isort_output(buffer)
 
             for line_num, message in self.sortimports_linenum_msg(sort_result):
