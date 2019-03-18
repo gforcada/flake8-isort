@@ -7,7 +7,7 @@ python:
   - 'pypy3'
 cache: pip
 install:
-  - pip install -e .[test]
+  - pip install .[test]
 script:
   - flake8 *.py
   - pytest run_tests.py
