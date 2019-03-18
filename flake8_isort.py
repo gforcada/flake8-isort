@@ -92,7 +92,7 @@ class Flake8Isort(object):
                 yield line_num, 0, message, type(self)
 
     def search_isort_config(self):
-        # type: () -> Optional[str]
+        # type: () -> Optional[str]  # noqa: F821
         """Search for isort configuration all the way up to the root folder
 
         Looks for ``.isort.cfg``, ``.editorconfig`` or ``[isort]`` section in
@@ -118,12 +118,12 @@ class Flake8Isort(object):
         return None
 
     def search_isort_config_at_current(self):
-        # type: () -> Optional[str]
+        # type: () -> Optional[str]  # noqa: F821
         """Search for isort configuration at current directory"""
         return self._search_config_on_path(os.path.realpath('.'))
 
     def _search_config_on_path(self, path):
-        # type: (str) -> Optional[str]
+        # type: (str) -> Optional[str]  # noqa: F821
         """Search for isort configuration files at the specifed path.
 
         Args:
