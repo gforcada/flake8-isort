@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.6.1 (unreleased)
+2.7.0 (2019-03-19)
 ------------------
 
 - Improve the README.
