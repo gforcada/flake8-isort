@@ -269,7 +269,11 @@ class TestFlake8Isort(unittest.TestCase):
 
     def test_isort_formatted_output(self):
         options = collections.namedtuple(
-            'Options', ['no_isort_config', 'isort_show_traceback']
+            'Options', [
+                'no_isort_config',
+                'isort_show_traceback',
+                'stdin_display_name'
+            ]
         )
 
         (file_path, lines) = self._given_a_file_in_test_dir(
@@ -283,7 +287,7 @@ class TestFlake8Isort(unittest.TestCase):
 
         with OutputCapture():
             checker = Flake8Isort(None, file_path, lines)
-            checker.parse_options(options(None, True))
+            checker.parse_options(options(None, True, 'stdin'))
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
             self.assertEqual(ret[0][0], 2)
