@@ -6,8 +6,11 @@ Changelog
 2.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Improve the README.
+  [barbossa]
 
+- Fix isort output when pipes are used.
+  [maerteijn]
 
 2.6.0 (2018-12-01)
 ------------------
