@@ -22,8 +22,10 @@ Install with pip::
 
 Options
 -------
-Since version 1.0 a check for an ``.isort.cfg`` file is done,
-since version 1.1 ``setup.cfg`` is also checked for an ``[isort]`` section.
+Config options can be set in several different locations:
+* ``.isort.cfg``
+* ``.editorconfig``
+* an ``[isort]`` section in ``setup.cfg``, ``tox.ini``, or ``.flake8``
 
 This potentially avoids to lint a project that has no formal definition of how import should be sorted.
 
