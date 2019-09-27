@@ -96,7 +96,7 @@ class Flake8Isort(object):
         """Search for isort configuration all the way up to the root folder
 
         Looks for ``.isort.cfg``, ``.editorconfig`` or ``[isort]`` section in
-        ``setup.cfg`` or ``tox.ini`` config files.
+        ``setup.cfg``, ``tox.ini``, or ``.flake8`` config files.
         """
         full_path = os.path.abspath(self.filename)
         split_path = (os.path.dirname(full_path), True)
@@ -138,7 +138,7 @@ class Flake8Isort(object):
                 return config_file_path
 
         # Check for '[isort]' section in other configuration files.
-        for config_file in ('tox.ini', 'setup.cfg'):
+        for config_file in ('tox.ini', 'setup.cfg', '.flake8'):
             config_file_path = os.path.join(path, config_file)
             config = SafeConfigParser()
             config.read(config_file_path)
