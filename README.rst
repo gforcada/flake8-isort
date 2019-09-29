@@ -23,6 +23,7 @@ Install with pip::
 Options
 -------
 Config options can be set in several different locations:
+
 * ``.isort.cfg``
 * ``.editorconfig``
 * an ``[isort]`` section in ``setup.cfg``, ``tox.ini``, or ``.flake8``
