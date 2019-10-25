@@ -19,6 +19,10 @@ Install
 Install with pip::
 
     $ pip install flake8-isort
+    
+Install with conda::
+
+    $ conda install -c conda-forge flake8-isort
 
 Options
 -------
