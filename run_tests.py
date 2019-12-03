@@ -293,3 +293,24 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][0], 2)
             self.assertEqual(ret[0][1], 0)
             self.assertIn(diff, ret[0][2])
+
+    def test_isort_uses_pyproject_toml_if_available(self):
+        (file_path, lines) = self._given_a_file_in_test_dir(
+            'import os\n'
+            'from sys import path\n',
+            isort_config=''
+        )
+
+        pyproject_toml_path = os.path.join(
+            os.path.dirname(file_path), 'pyproject.toml',
+        )
+        with open(pyproject_toml_path, 'w') as f:
+            f.write('[tool.isort]\nlines_between_types=1')
+
+        with OutputCapture():
+            checker = Flake8Isort(None, file_path, lines)
+            ret = list(checker.run())
+            self.assertEqual(len(ret), 1)
+            self.assertEqual(ret[0][0], 2)
+            self.assertEqual(ret[0][1], 0)
+            self.assertTrue(ret[0][2].startswith('I003 '))
