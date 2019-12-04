@@ -41,6 +41,10 @@ Since version 2.6 we introduce new ``--isort-show-traceback`` option.
 It is used to show verbose multi-line output from ``isort``.
 By default it is turned off.
 
+Configuration
+-------------
+If using the `select` [option from flake8](http://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select) be sure to enable the `I` category as well, see below for the specific error codes reported by `flake8-isort`.
+
 Error codes
 -----------
 +------------+-----------------------------------------------------------+
