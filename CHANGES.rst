@@ -6,7 +6,14 @@ Changelog
 2.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Look for isort configuration on `.flake8` files as well.
+  [JohnHBrock]
+
+- Document how to install `flake8-isort` on conda.
+  [marcelotrevisani]
+
+- Look for isort configuration on `pyproject.toml` files as well.
+  [sanjioh]
 
 
 2.7.0 (2019-03-19)
