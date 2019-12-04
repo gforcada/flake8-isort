@@ -12,7 +12,7 @@ long_description = '{0}\n{1}'.format(
 
 setup(
     name='flake8-isort',
-    version='2.7.1.dev0',
+    version='2.8.0',
     description=short_description,
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers

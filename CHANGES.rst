@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.7.1 (unreleased)
+2.8.0 (2019-12-05)
 ------------------
 
 - Look for isort configuration on `.flake8` files as well.
