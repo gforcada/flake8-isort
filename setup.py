@@ -46,7 +46,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'flake8 >= 3.2.1',
-        'isort[pyproject] >= 4.3.0',
+        'isort[pyproject] >= 4.3.5',
         'testfixtures',
     ],
     extras_require={
