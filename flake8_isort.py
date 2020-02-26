@@ -12,6 +12,12 @@ try:
 except ImportError:
     from ConfigParser import SafeConfigParser
 
+try:
+    import toml
+    TOML_AVAILABLE = True
+except ImportError:
+    TOML_AVAILABLE = False
+
 
 class Flake8Isort(object):
     name = 'flake8_isort'
@@ -135,6 +141,13 @@ class Flake8Isort(object):
         for config_file in ('.isort.cfg', '.editorconfig'):
             config_file_path = os.path.join(path, config_file)
             if os.path.isfile(config_file_path):
+                return config_file_path
+
+        config_file_path = os.path.join(path, 'pyproject.toml')
+        if os.path.isfile(config_file_path) and TOML_AVAILABLE:
+            config = toml.load(config_file_path)
+            isort_config = config.get("tool", {}).get("isort", {})
+            if isort_config:
                 return config_file_path
 
         # Check for '[isort]' section in other configuration files.
