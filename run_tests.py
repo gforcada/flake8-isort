@@ -225,8 +225,7 @@ class TestFlake8Isort(unittest.TestCase):
 
     def test_isortcfg_not_found(self):
         (file_path, lines) = self._given_a_file_in_test_dir(
-            'from sys import pid\n'
-            'import threading',
+            'from sys import pid, path',
             isort_config='force_single_line=True'
         )
         # remove the .isort.cfg file
@@ -239,33 +238,9 @@ class TestFlake8Isort(unittest.TestCase):
             checker.config_file = True
             ret = list(checker.run())
             self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 0)
+            self.assertEqual(ret[0][0], 1)
             self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I002 '))
-
-    def test_default_option(self):
-        """By default a config file (.isort.cfg) is expected"""
-        (file_path, lines) = self._given_a_file_in_test_dir(
-            'from sys import pid\n'
-            'import threading\n',
-            isort_config='force_single_line=True'
-        )
-        with OutputCapture():
-            app = application.Application()
-            app.run([file_path, ])
-            self.assertTrue(Flake8Isort.config_file)
-
-    def test_config_file(self):
-        """Check that one can force to not look for a config file"""
-        (file_path, lines) = self._given_a_file_in_test_dir(
-            'from sys import pid\n'
-            'import threading\n',
-            isort_config='force_single_line=True'
-        )
-        with OutputCapture():
-            app = application.Application()
-            app.run(['--no-isort-config', file_path, ])
-            self.assertFalse(Flake8Isort.config_file)
+            self.assertTrue(ret[0][2].startswith('I001 '))
 
     def test_isort_formatted_output(self):
         options = collections.namedtuple(
@@ -294,7 +269,6 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][1], 0)
             self.assertIn(diff, ret[0][2])
 
-    @unittest.expectedFailure
     def test_isort_uses_pyproject_toml_if_available(self):
         (file_path, lines) = self._given_a_file_in_test_dir(
             'import os\n'
