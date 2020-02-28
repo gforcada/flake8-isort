@@ -294,12 +294,17 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][1], 0)
             self.assertIn(diff, ret[0][2])
 
+    @unittest.expectedFailure
     def test_isort_uses_pyproject_toml_if_available(self):
         (file_path, lines) = self._given_a_file_in_test_dir(
             'import os\n'
             'from sys import path\n',
             isort_config=''
         )
+        # remove the .isort.cfg file
+        isortcfg_path = file_path.split('/')[: -1]
+        isortcfg_path = '{0}/.isort.cfg'.format('/'.join(isortcfg_path))
+        os.remove(isortcfg_path)
 
         pyproject_toml_path = os.path.join(
             os.path.dirname(file_path), 'pyproject.toml',
