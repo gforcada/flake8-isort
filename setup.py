@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup
 
+import re
+
+
+def get_version(file="flake8_isort.py"):
+    with open(file) as f:
+        for line in f:
+            m = re.match(r"^__version__ = '(?P<version>.*?)'$", line)
+            if m:
+                return m.group('version')
+
 
 short_description = 'flake8 plugin that integrates isort .'
 
@@ -12,7 +22,7 @@ long_description = '{0}\n{1}'.format(
 
 setup(
     name='flake8-isort',
-    version='2.8.1.dev0',
+    version=get_version(),
     description=short_description,
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
