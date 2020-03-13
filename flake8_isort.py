@@ -13,9 +13,12 @@ except ImportError:
     from ConfigParser import SafeConfigParser
 
 
+__version__ = '2.8.1.dev0'
+
+
 class Flake8Isort(object):
     name = 'flake8_isort'
-    version = '2.3'
+    version = __version__
     isort_unsorted = (
         'I001 isort found an import in the wrong position'
     )
