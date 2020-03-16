@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.9.0 (unreleased)
+2.9.0 (2020-03-16)
 ------------------
 
 - Add ``python3.8`` suport.
