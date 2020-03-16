@@ -3,10 +3,11 @@
 Changelog
 =========
 
-2.8.1 (unreleased)
+2.9.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add ``python3.8`` suport.
+  [sobolevn]
 
 
 2.8.0 (2019-12-05)
