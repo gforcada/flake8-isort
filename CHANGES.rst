@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.9.1 (unreleased)
+2.9.1 (2020-03-28)
 ------------------
 
 - Fix flake8 warning.
