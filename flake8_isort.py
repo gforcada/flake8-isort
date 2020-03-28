@@ -38,11 +38,11 @@ class Flake8Isort(object):
     config_file = None
     show_traceback = False
     stdin_display_name = None
+    search_current = True
 
-    def __init__(self, tree, filename, lines, search_current=True):
+    def __init__(self, tree, filename, lines):
         self.filename = filename
         self.lines = lines
-        self.search_current = search_current
 
     @classmethod
     def add_options(cls, parser):
