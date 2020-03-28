@@ -13,7 +13,7 @@ except ImportError:
     from ConfigParser import SafeConfigParser
 
 
-__version__ = '2.9.1'
+__version__ = '2.9.2.dev0'
 
 
 class Flake8Isort(object):
