@@ -6,15 +6,14 @@ Changelog
 2.9.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix flake8 warning.
+  [sobolevn]
 
 2.9.0 (2020-03-16)
 ------------------
 
 - Add ``python3.8`` suport.
   [sobolevn]
-
 
 2.8.0 (2019-12-05)
 ------------------
@@ -27,7 +26,6 @@ Changelog
 
 - Look for isort configuration on `pyproject.toml` files as well.
   [sanjioh]
-
 
 2.7.0 (2019-03-19)
 ------------------
@@ -67,7 +65,6 @@ Changelog
 - Remove flake8-polyfill dependency.  flake8 >= 3.2.1 is required already, and
   stdin is not read directly anymore.
   [blueyed]
-
 
 2.3 (2017-12-22)
 ----------------
