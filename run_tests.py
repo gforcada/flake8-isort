@@ -266,12 +266,25 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][1], 0)
             self.assertIn(diff, ret[0][2])
 
-    def test_isort_uses_pyproject_toml_if_available(self):
+    def test_if_isort_cfg_is_used(self):
+        self.check_if_config_file_is_used(self.write_isort_cfg)
+
+    def test_if_setup_cfg_is_used(self):
+        self.check_if_config_file_is_used(self.write_setup_cfg)
+
+    def test_if_tox_ini_is_used(self):
+        self.check_if_config_file_is_used(self.write_tox_ini)
+
+    def test_if_pyproject_toml_is_used(self):
+        self.check_if_config_file_is_used(self.write_pyproject_toml)
+
+    def check_if_config_file_is_used(self, method_to_write_config):
         (file_path, lines) = self.write_python_file(
             'import os\n'
             'from sys import path\n',
         )
-        self.write_pyproject_toml('lines_between_types=1')
+        method_to_write_config('lines_between_types=1')
+
         with OutputCapture():
             checker = Flake8Isort(None, file_path, lines)
             ret = list(checker.run())
@@ -279,5 +292,3 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertEqual(ret[0][0], 2)
             self.assertEqual(ret[0][1], 0)
             self.assertTrue(ret[0][2].startswith('I003 '))
-
-
