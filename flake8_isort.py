@@ -36,6 +36,7 @@ class Flake8Isort(object):
     )
 
     config_file = None
+    need_config = True
     show_traceback = False
     stdin_display_name = None
     search_current = True
@@ -62,17 +63,17 @@ class Flake8Isort(object):
 
     @classmethod
     def parse_options(cls, options):
-        if options.no_isort_config is None:
-            cls.config_file = True
-        else:
-            cls.config_file = False
+        if options.config is not None:
+            cls.config_file = options.config
+        if options.no_isort_config is True:
+            cls.need_config = False
 
         cls.stdin_display_name = options.stdin_display_name
         cls.show_traceback = options.isort_show_traceback
 
     def run(self):
-        settings_file = self.search_isort_config()
-        if self.config_file and not settings_file:
+        settings_file = self.config_file or self.search_isort_config()
+        if self.need_config and not settings_file:
             yield 0, 0, self.no_config_msg, type(self)
         else:
             if self.filename is not self.stdin_display_name:
