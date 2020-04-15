@@ -6,8 +6,8 @@ Changelog
 2.9.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Let `isort` search the configuration, rather than `flake8-isort` try to find it.
+  [jnns]
 
 2.9.1 (2020-03-28)
 ------------------
