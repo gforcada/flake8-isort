@@ -19,27 +19,11 @@ Install
 Install with pip::
 
     $ pip install flake8-isort
-    
+
 Install with conda::
 
     $ conda install -c conda-forge flake8-isort
 
-Options
--------
-Config options can be set in several different locations:
-
-* ``.isort.cfg``
-* ``.editorconfig``
-* an ``[isort]`` section in ``setup.cfg``, ``tox.ini``, or ``.flake8``
-
-This potentially avoids to lint a project that has no formal definition of how import should be sorted.
-
-With either ``--no-isort-config`` command line switch,
-or ``no-isort-config`` flake8 configuration option it can be disabled.
-
-Since version 2.6 we introduce new ``--isort-show-traceback`` option.
-It is used to show verbose multi-line output from ``isort``.
-By default it is turned off.
 
 Configuration
 -------------

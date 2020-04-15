@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
 from difflib import Differ
 from isort import SortImports
-from os.path import expanduser
 from testfixtures import OutputCapture
-
-import os
-
-
-try:
-    from configparser import ConfigParser as SafeConfigParser
-except ImportError:
-    from ConfigParser import SafeConfigParser
 
 
 __version__ = '2.9.2.dev0'
@@ -35,7 +26,6 @@ class Flake8Isort(object):
         'I005 isort found an unexpected missing import'
     )
 
-    config_file = None
     show_traceback = False
     stdin_display_name = None
     search_current = True
@@ -46,12 +36,6 @@ class Flake8Isort(object):
 
     @classmethod
     def add_options(cls, parser):
-        parser.add_option(
-            '--no-isort-config',
-            action='store_true',
-            parse_from_config=True,
-            help='Do not require explicit configuration to be found'
-        )
 
         parser.add_option(
             '--isort-show-traceback',
@@ -62,93 +46,27 @@ class Flake8Isort(object):
 
     @classmethod
     def parse_options(cls, options):
-        if options.no_isort_config is None:
-            cls.config_file = True
-        else:
-            cls.config_file = False
-
         cls.stdin_display_name = options.stdin_display_name
         cls.show_traceback = options.isort_show_traceback
 
     def run(self):
-        settings_file = self.search_isort_config()
-        if self.config_file and not settings_file:
-            yield 0, 0, self.no_config_msg, type(self)
+        if self.filename is not self.stdin_display_name:
+            file_path = self.filename
         else:
-            if self.filename is not self.stdin_display_name:
-                file_path = self.filename
-            else:
-                file_path = None
-            with OutputCapture() as buffer:
-                sort_result = SortImports(
-                    file_path=file_path,
-                    file_contents=''.join(self.lines),
-                    check=True,
-                    settings_path=settings_file,
-                    show_diff=True,
-                )
-            traceback = self._format_isort_output(buffer)
+            file_path = None
+        with OutputCapture() as buffer:
+            sort_result = SortImports(
+                file_path=file_path,
+                file_contents=''.join(self.lines),
+                check=True,
+                show_diff=True,
+            )
+        traceback = self._format_isort_output(buffer)
 
-            for line_num, message in self.sortimports_linenum_msg(sort_result):
-                if self.show_traceback:
-                    message += traceback
-                yield line_num, 0, message, type(self)
-
-    def search_isort_config(self):
-        # type: () -> Optional[str]  # noqa: F821
-        """Search for isort configuration all the way up to the root folder
-
-        Looks for ``.isort.cfg``, ``.editorconfig`` or ``[isort]`` section in
-        ``setup.cfg``, ``tox.ini``, or ``.flake8`` config files.
-        """
-        full_path = os.path.abspath(self.filename)
-        split_path = (os.path.dirname(full_path), True)
-        while split_path[1]:
-            config_on_file = self._search_config_on_path(split_path[0])
-            if config_on_file:
-                return config_on_file
-            split_path = os.path.split(split_path[0])
-
-        if self.search_current:
-            return self.search_isort_config_at_current()
-
-        # last attempt, check home folder
-        home = expanduser('~')
-        config_on_home = self._search_config_on_path(home)
-        if config_on_home:
-            return config_on_home
-
-        return None
-
-    def search_isort_config_at_current(self):
-        # type: () -> Optional[str]  # noqa: F821
-        """Search for isort configuration at current directory"""
-        return self._search_config_on_path(os.path.realpath('.'))
-
-    def _search_config_on_path(self, path):
-        # type: (str) -> Optional[str]  # noqa: F821
-        """Search for isort configuration files at the specifed path.
-
-        Args:
-            path: The path to search for config files on.
-
-        Return:
-            str: the isort config if found otherwise, None
-        """
-        for config_file in ('.isort.cfg', '.editorconfig'):
-            config_file_path = os.path.join(path, config_file)
-            if os.path.isfile(config_file_path):
-                return config_file_path
-
-        # Check for '[isort]' section in other configuration files.
-        for config_file in ('tox.ini', 'setup.cfg', '.flake8'):
-            config_file_path = os.path.join(path, config_file)
-            config = SafeConfigParser()
-            config.read(config_file_path)
-            if 'isort' in config.sections():
-                return config_file_path
-
-        return None
+        for line_num, message in self.sortimports_linenum_msg(sort_result):
+            if self.show_traceback:
+                message += traceback
+            yield line_num, 0, message, type(self)
 
     def sortimports_linenum_msg(self, sort_result):
         """Parses isort.SortImports for line number changes and message
