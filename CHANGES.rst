@@ -3,7 +3,7 @@
 Changelog
 =========
 
-2.9.2 (unreleased)
+3.0.0 (2020-04-15)
 ------------------
 
 - Let `isort` search the configuration, rather than `flake8-isort` try to find it.

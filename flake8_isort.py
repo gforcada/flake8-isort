@@ -4,7 +4,7 @@ from isort import SortImports
 from testfixtures import OutputCapture
 
 
-__version__ = '2.9.2.dev0'
+__version__ = '3.0.0'
 
 
 class Flake8Isort(object):
