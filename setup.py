@@ -56,13 +56,13 @@ setup(
     test_suite='run_tests',
     zip_safe=False,
     install_requires=[
-        'flake8 >= 3.2.1',
-        'isort[pyproject] >= 4.3.5',
-        'testfixtures',
+        'flake8 >= 3.2.1, <4',
+        'isort[pyproject] >= 4.3.5, <5',
+        'testfixtures >= 6.8.0, <7',
     ],
     extras_require={
         'test': [
-            'pytest',
+            'pytest >= 4.0.2, <6',
         ],
     },
     entry_points={

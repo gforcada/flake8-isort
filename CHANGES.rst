@@ -6,7 +6,10 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Work around `FailedToLoadPlugin` exception by requiring `isort` 4.x. Likewise,
+  pin the major version of all dependencies, to reduce risk of any future
+  incompatibilities.
+  [pkolbus]
 
 
 3.0.0 (2020-04-15)
