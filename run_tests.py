@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from flake8.main import application
 from flake8_isort import Flake8Isort
 from tempfile import mkdtemp
 from testfixtures import OutputCapture
@@ -47,7 +46,9 @@ class TestFlake8Isort(unittest.TestCase):
             '\n'
             'import os\n',
         )
-        self.write_isort_cfg('force_single_line=True\nforce_alphabetical_sort=True')
+        self.write_isort_cfg(
+            'force_single_line=True\nforce_alphabetical_sort=True'
+        )
         with OutputCapture():
             checker = Flake8Isort(None, file_path, lines)
             ret = list(checker.run())
@@ -194,7 +195,9 @@ class TestFlake8Isort(unittest.TestCase):
             'from plone.app.testing import applyProfile\n'
             'from plone.app.testing import FunctionalTesting\n',
         )
-        self.write_isort_cfg('force_alphabetical_sort=True\nforce_single_line=True')
+        self.write_isort_cfg(
+            'force_alphabetical_sort=True\nforce_single_line=True'
+        )
         with OutputCapture():
             checker = Flake8Isort(None, file_path, lines)
             ret = list(checker.run())
@@ -202,7 +205,9 @@ class TestFlake8Isort(unittest.TestCase):
 
     def test_missing_add_imports(self):
         (file_path, lines) = self.write_python_file('import os')
-        self.write_isort_cfg('add_imports=from __future__ import unicode_literals')
+        self.write_isort_cfg(
+            'add_imports=from __future__ import unicode_literals'
+        )
         with OutputCapture():
             checker = Flake8Isort(None, file_path, lines)
             ret = list(checker.run())
@@ -230,7 +235,9 @@ class TestFlake8Isort(unittest.TestCase):
             self.assertTrue(ret[0][2].startswith('I001 '))
 
     def test_isortcfg_not_found(self):
-        (file_path, lines) = self.write_python_file('from sys import pid, path')
+        (file_path, lines) = self.write_python_file(
+            'from sys import pid, path'
+        )
         with OutputCapture():
             checker = Flake8Isort(None, file_path, lines)
             checker.search_current = False
