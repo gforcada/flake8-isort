@@ -15,6 +15,6 @@ script:
   - flake8 *.py
   - pytest run_tests.py
 after_success:
-  - pip install -q coverage==4.4 coveralls pytest-cov
+  - pip install -q -r requirements-cov.txt
   - pytest run_tests.py --cov flake8_isort --cov-report term-missing
   - coveralls
