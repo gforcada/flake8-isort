@@ -25,8 +25,8 @@ install:
   - pip install .[test]
 script:
   - flake8 *.py
-  - pytest run_tests.py
+  - pytest -v
 after_success:
   - pip install -q -r requirements-cov.txt
-  - pytest run_tests.py --cov flake8_isort --cov-report term-missing
+  - pytest -v --cov flake8_isort --cov-report term-missing
   - coveralls
