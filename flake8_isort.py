@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
-from difflib import Differ
-from isort import SortImports
 from testfixtures import OutputCapture
 
+import isort
 
-__version__ = '3.0.2.dev0'
+
+if hasattr(isort, 'api'):  # isort 5
+    from pathlib import Path
+
+    import warnings
+else:
+    from difflib import Differ
+
+__version__ = '4.0.0.dev0'
 
 
-class Flake8Isort(object):
+class Flake8IsortBase(object):
     name = 'flake8_isort'
     version = __version__
     isort_unsorted = (
@@ -49,13 +56,17 @@ class Flake8Isort(object):
         cls.stdin_display_name = options.stdin_display_name
         cls.show_traceback = options.isort_show_traceback
 
+
+class Flake8Isort4(Flake8IsortBase):
+    """class for isort <5"""
+
     def run(self):
         if self.filename is not self.stdin_display_name:
             file_path = self.filename
         else:
             file_path = None
         with OutputCapture() as buffer:
-            sort_result = SortImports(
+            sort_result = isort.SortImports(
                 file_path=file_path,
                 file_contents=''.join(self.lines),
                 check=True,
@@ -168,3 +179,87 @@ class Flake8Isort(object):
                 for new_idx, new_line in enumerate(
                         sort_imports.out_lines.pop(idx).splitlines()):
                     sort_imports.out_lines.insert(idx + new_idx, new_line)
+
+
+class Flake8Isort5(Flake8IsortBase):
+    """class for isort >=5"""
+
+    def run(self):
+        if self.filename is not self.stdin_display_name:
+            file_path = Path(self.filename)
+            isort_config = isort.settings.Config(
+                settings_path=file_path.parent)
+        else:
+            isort_config = isort.settings.Config(
+                settings_path=Path.cwd())
+        in_string = ''.join(self.lines)
+        traceback = ''
+        iscorrect = True
+        with OutputCapture() as buffer:
+            try:
+                if self.filename is not self.stdin_display_name:
+                    iscorrect = isort.api.check_file(
+                        filename=self.filename,
+                        show_diff=True,
+                        config=isort_config)
+                else:
+                    iscorrect = isort.api.check_code_string(
+                        code=in_string,
+                        show_diff=True,
+                        config=isort_config)
+            except isort.exceptions.FileSkipped:
+                pass
+            except isort.exceptions.ISortError as e:
+                warnings.warn(e)
+        isort_output = buffer.captured
+        if not iscorrect:
+            traceback += isort_output
+            for line_num, message in self.isort_linenum_msg(isort_output):
+                if self.show_traceback:
+                    message += traceback
+                yield line_num, 0, message, type(self)
+
+    def isort_linenum_msg(self, isort_output):
+        """Parse isort output for line number changes and message
+
+        Args
+        ----
+        isort_diff : the stdout of the isort check when show_diff=True
+
+        Yields
+        ------
+        tuple: A tuple of the specific isort line number and message.
+        """
+        line_num = 0
+        additions = []
+        moves = []
+        for line in isort_output.splitlines():
+            if line.startswith('@@', 0, 2):
+                line_num = int(line[4:].split(' ')[0].split(',')[0])
+                continue
+            elif not line_num:  # skip lines before first hunk
+                continue
+            if line.startswith(' ', 0, 1):
+                line_num += 1  # Ignore unchanged lines but increment line_num.
+            elif line.startswith('-', 0, 1):
+                if line.strip() == '-':
+                    yield line_num, self.isort_blank_unexp
+                    line_num += 1
+                else:
+                    moves.append(line[1:])
+                    yield line_num, self.isort_unsorted
+                    line_num += 1
+            elif line.startswith('+', 0, 1):
+                if line.strip() == '+':
+                    # Include newline additions but do not increment line_num.
+                    yield line_num, self.isort_blank_req
+                else:
+                    additions.append((line_num, line))
+
+        # return all additions that did not move
+        for line_num, line in additions:
+            if not line[1:] in moves:
+                yield line_num, self.isort_add_unexp
+
+
+Flake8Isort = Flake8Isort5 if hasattr(isort, 'api') else Flake8Isort4
