@@ -21,7 +21,7 @@ jobs:
       env: ISORT_VER="5"
 cache: pip
 install:
-  - if [[ $ISORT_VER == "4" ]]; then pip install 'isort[pyproject] < 5'; fi
+  - if [[ $ISORT_VER == "4" ]]; then pip install 'isort < 5'; fi
   - pip install .[test]
 script:
   - flake8 *.py
