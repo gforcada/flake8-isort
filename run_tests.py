@@ -1,302 +1,222 @@
-# -*- coding: utf-8 -*-
-from flake8_isort import Flake8Isort
-from tempfile import mkdtemp
-from testfixtures import OutputCapture
+"""unit tests for flake8-isort
+
+the test should pass with both isort 4 and isort 5
+"""
 
 import collections
 import os
-import unittest
+import pytest
+
+from flake8_isort import Flake8Isort
 
 
-class TestFlake8Isort(unittest.TestCase):
+def write_python_file(tmpdir, content):
+    file_path = os.path.join(str(tmpdir), 'test.py')
+    with open(file_path, 'w') as python_file:
+        python_file.write(content)
+    return (file_path, content)
 
-    def setUp(self):
-        self.test_dir = os.path.realpath(mkdtemp())
 
-    def write_python_file(self, content):
-        file_path = os.path.join(self.test_dir, 'test.py')
-        with open(file_path, 'w') as python_file:
-            python_file.write(content)
-        return (file_path, content)
+def write_isort_cfg(tmpdir, content):
+    content = '[settings]\n' + content
+    write_config_file(tmpdir, '.isort.cfg', content)
 
-    def write_isort_cfg(self, content):
-        content = '[settings]\n' + content
-        self.write_config_file('.isort.cfg', content)
 
-    def write_setup_cfg(self, content):
-        content = '[isort]\n' + content
-        self.write_config_file('setup.cfg', content)
+def write_setup_cfg(tmpdir, content):
+    content = '[isort]\n' + content
+    write_config_file(tmpdir, 'setup.cfg', content)
 
-    def write_tox_ini(self, content):
-        content = '[isort]\n' + content
-        self.write_config_file('tox.ini', content)
 
-    def write_pyproject_toml(self, content):
-        content = '[tool.isort]\n' + content
-        self.write_config_file('pyproject.toml', content)
+def write_tox_ini(tmpdir, content):
+    content = '[isort]\n' + content
+    write_config_file(tmpdir, 'tox.ini', content)
 
-    def write_config_file(self, name, content):
-        file_path = os.path.join(self.test_dir, name)
-        with open(file_path, 'w') as config_file:
-            config_file.write(content)
 
-    def test_sorted_correctly_alpha(self):
-        (file_path, lines) = self.write_python_file(
-            'from sys import path\n'
-            '\n'
-            'import os\n',
-        )
-        self.write_isort_cfg(
-            'force_single_line=True\nforce_alphabetical_sort=True'
-        )
-        with OutputCapture():
+def write_pyproject_toml(tmpdir, content):
+    content = '[tool.isort]\n' + content
+    write_config_file(tmpdir, 'pyproject.toml', content)
+
+
+def write_config_file(tmpdir, filename, content):
+    file_path = os.path.join(str(tmpdir), filename)
+    with open(file_path, 'w') as config_file:
+        config_file.write(content)
+
+
+def check_isort_ret(ret, ref):
+    """Sort the return by (line, errortype) and compare it to the reference"""
+    assert len(ret) == len(ref)
+    for ret_i, ref_i in zip(sorted(ret, key=lambda x: (x[0], x[2])), ref):
+        assert ret_i[:2] == ref_i[:2]
+        assert ret_i[2].startswith(ref_i[2])
+
+
+testcases = [
+    {'name': 'sorted_correctly_default',
+     'code': ('import os\n'
+              'from sys import path\n'),
+     'ref': []},
+    {'name': 'sorted_correctly_alpha',
+     'config': 'force_single_line=True\n'
+               'force_alphabetical_sort=True\n',
+     'code': 'from sys import path\n'
+             '\n'
+             'import os\n',
+     'ref': []},
+    {'name': 'eof_blank_lines',
+     'code': 'import os\n'
+             'from sys import path\n'
+             '\n'
+             '\n'
+             '   \n',
+     'ref': []},
+    {'name': 'imports_requires_blank_line',
+     'code': 'from __future__ import division\n'
+             'import threading\n'
+             'from sys import pid\n',
+     'ref': [(2, 0, 'I003 ')]},
+    {'name': 'isortcfg_skip_file',
+     'config': 'skip=test.py',
+     'code': 'skipped_file',
+     'ref': []},
+    {'name': 'file_skipped_with_comment',
+     'code': '# isort:skip_file',
+     'ref': []},
+    {'name': 'imports_unexpected_blank_line',
+     'code': 'from __future__ import division\n'
+             '\n'
+             'import threading\n'
+             '\n'
+             'from sys import pid\n',
+     'ref': [(4, 0, 'I004 ')]},
+    {'name': 'sorted_incorrectly_multiple',
+     'code': 'from __future__ import division\n'
+             'import os\n'
+             'from sys import pid\n'
+             'import threading\n'
+             '\n'
+             'import isort\n'
+             '\n\n\n'
+             'def func()\n',
+     'ref': [(2, 0, 'I003 '),
+             (4, 0, 'I001 '),
+             (9, 0, 'I004 ')]},
+    {'name': 'sorted_incorrectly',
+     'config': 'force_single_line=True',
+     'code': 'from sys import pid\n'
+             'import threading',
+     'ref': [(2, 0, 'I001 ')]},
+    {'name': 'empty_file',
+     'code': '\n\n',
+     'ref': []},
+    {'name': 'wrapped_imports',
+     'config': 'wrap_length=65',
+     'code': 'from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed,\n'
+             '                           ftime, get_path_size, is_infohash,\n'
+             '                           is_ip, is_magnet, is_url)\n',
+     'ref': []},
+    {'name': 'force_single_line_imports',
+     'config': 'force_alphabetical_sort=True\n'
+               'force_single_line=True',
+     'code': 'from plone.app.testing import applyProfile\n'
+             'from plone.app.testing import FunctionalTesting\n',
+     'ref': []},
+    {'name': 'missing_add_imports',
+     'config': 'add_imports=from __future__ import unicode_literals',
+     'code': 'import os\n',
+     'ref': [(1, 0, 'I003'),
+             (1, 0, 'I005')]},
+]
+"""
+    {'name': '',
+     'config':
+     'code':
+     'ref': []},
+"""
+
+
+@pytest.mark.parametrize('testcase', testcases,
+                         ids=[t['name'] for t in testcases])
+@pytest.mark.parametrize('mode', ["file", "code_string"])
+def test_flake8_isort(tmpdir, testcase, mode):
+    """Test the code examples in files and directly from string"""
+    with tmpdir.as_cwd():
+        if 'config' in testcase:
+            write_isort_cfg(tmpdir, testcase['config'])
+        if mode == "file":
+            (file_path, lines) = write_python_file(tmpdir, testcase['code'])
             checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
+        elif mode == "code_string":
+            checker = Flake8Isort(None, None, testcase['code'])
+        else:
+            raise RuntimeError("invalid mode")
+        ret = list(checker.run())
+        check_isort_ret(ret, testcase['ref'])
 
-    def test_sorted_correctly_default(self):
-        (file_path, lines) = self.write_python_file(
-            'import os\n'
-            'from sys import path\n',
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
 
-    def test_with_eof_blank_lines(self):
-        """Pass with eof blank line as flake8 will flag them"""
-        (file_path, lines) = self.write_python_file(
-            'import os\n'
-            'from sys import path\n'
-            '\n'
-            '\n'
-            '   \n',
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
+def test_isortcfg_found(tmpdir):
+    (file_path, lines) = write_python_file(
+        tmpdir,
+        'from sys import pid\n'
+        'import threading',
+    )
+    write_isort_cfg(tmpdir, 'force_single_line=True')
+    checker = Flake8Isort(None, file_path, lines)
+    checker.config_file = True
+    ret = list(checker.run())
+    check_isort_ret(ret, [(2, 0, 'I001 ')])
 
-    def test_imports_requires_blank_line(self):
-        (file_path, lines) = self.write_python_file(
-            'from __future__ import division\n'
-            'import threading\n'
-            'from sys import pid\n',
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 2)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I003 '))
 
-    def test_isortcfg_skip_file(self):
-        (file_path, lines) = self.write_python_file(
-            'skipped_file',
-        )
-        self.write_isort_cfg('skip=test.py')
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
+def test_isortcfg_not_found(tmpdir):
+    (file_path, lines) = write_python_file(
+        tmpdir,
+        'from sys import pid, path'
+    )
+    checker = Flake8Isort(None, file_path, lines)
+    checker.search_current = False
+    checker.config_file = True
+    ret = list(checker.run())
+    check_isort_ret(ret, [(1, 0, 'I001 ')])
 
-    def test_file_skipped_with_comment(self):
-        # Note: files skipped in this way are not marked as
-        # "skipped" by isort <= 4.2.15, so we handle them in a
-        # different code path and test to ensure they also work.
-        (file_path, lines) = self.write_python_file(
-            '# isort:skip_file',
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
 
-    def test_imports_unexpected_blank_line(self):
-        (file_path, lines) = self.write_python_file(
-            'from __future__ import division\n'
-            '\n'
-            'import threading\n'
-            '\n'
-            'from sys import pid\n',
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 4)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I004 '))
+def test_isort_formatted_output(tmpdir):
+    options = collections.namedtuple(
+        'Options', [
+            'no_isort_config',
+            'isort_show_traceback',
+            'stdin_display_name'
+        ]
+    )
 
-    def test_sorted_incorrectly_multiple(self):
-        (file_path, lines) = self.write_python_file(
-            'from __future__ import division\n'
-            'import os\n'
-            'from sys import pid\n'
-            'import threading\n'
-            '\n'
-            'import isort\n'
-            '\n\n\n'
-            'def func()\n',
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 3)
-            self.assertEqual(ret[0][0], 2)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I003 '))
-            self.assertEqual(ret[1][0], 4)
-            self.assertEqual(ret[1][1], 0)
-            self.assertTrue(ret[1][2].startswith('I001 '))
-            self.assertEqual(ret[2][0], 9)
-            self.assertEqual(ret[2][1], 0)
-            self.assertTrue(ret[2][2].startswith('I004 '))
+    (file_path, lines) = write_python_file(
+        tmpdir,
+        'from __future__ import division\n'
+        'import os\n'
+        'from sys import pid\n',
+    )
 
-    def test_sorted_incorrectly(self):
-        (file_path, lines) = self.write_python_file(
-            'from sys import pid\n'
-            'import threading',
-        )
-        self.write_isort_cfg('force_single_line=True')
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 2)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I001 '))
+    diff = ' from __future__ import division\n+\n import os'
 
-    def test_empty_file(self):
-        (file_path, lines) = self.write_python_file(
-            '\n\n',
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
+    checker = Flake8Isort(None, file_path, lines)
+    checker.parse_options(options(None, True, 'stdin'))
+    ret = list(checker.run())
+    assert len(ret) == 1
+    assert ret[0][0] == 2
+    assert ret[0][1] == 0
+    assert diff in ret[0][2]
 
-    def test_wrapped_imports(self):
-        (file_path, lines) = self.write_python_file(
-            'from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed,\n'
-            '                           ftime, get_path_size, is_infohash,\n'
-            '                           is_ip, is_magnet, is_url)\n',
-        )
-        self.write_isort_cfg('wrap_length=65')
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
 
-    def test_force_single_line_imports(self):
-        (file_path, lines) = self.write_python_file(
-            'from plone.app.testing import applyProfile\n'
-            'from plone.app.testing import FunctionalTesting\n',
-        )
-        self.write_isort_cfg(
-            'force_alphabetical_sort=True\nforce_single_line=True'
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(ret, [])
+@pytest.mark.parametrize(
+    'method_to_write_config',
+    [write_isort_cfg, write_setup_cfg, write_tox_ini, write_pyproject_toml])
+def test_if_config_file_is_used(tmpdir, method_to_write_config):
+    (file_path, lines) = write_python_file(
+        tmpdir,
+        'import os\n'
+        'from sys import path\n',
+    )
+    method_to_write_config(tmpdir, 'lines_between_types=1')
 
-    def test_missing_add_imports(self):
-        (file_path, lines) = self.write_python_file('import os')
-        self.write_isort_cfg(
-            'add_imports=from __future__ import unicode_literals'
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 2)
-            self.assertEqual(ret[0][0], 1)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I005 '))
-            self.assertEqual(ret[1][0], 1)
-            self.assertEqual(ret[1][1], 0)
-            self.assertTrue(ret[1][2].startswith('I003 '))
-
-    def test_isortcfg_found(self):
-        (file_path, lines) = self.write_python_file(
-            'from sys import pid\n'
-            'import threading',
-        )
-        self.write_isort_cfg('force_single_line=True')
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            checker.config_file = True
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 2)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I001 '))
-
-    def test_isortcfg_not_found(self):
-        (file_path, lines) = self.write_python_file(
-            'from sys import pid, path'
-        )
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            checker.search_current = False
-            checker.config_file = True
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 1)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I001 '))
-
-    def test_isort_formatted_output(self):
-        options = collections.namedtuple(
-            'Options', [
-                'no_isort_config',
-                'isort_show_traceback',
-                'stdin_display_name'
-            ]
-        )
-
-        (file_path, lines) = self.write_python_file(
-            'from __future__ import division\n'
-            'import os\n'
-            'from sys import pid\n',
-        )
-
-        diff = ' from __future__ import division\n+\n import os'
-
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            checker.parse_options(options(None, True, 'stdin'))
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 2)
-            self.assertEqual(ret[0][1], 0)
-            self.assertIn(diff, ret[0][2])
-
-    def test_if_isort_cfg_is_used(self):
-        self.check_if_config_file_is_used(self.write_isort_cfg)
-
-    def test_if_setup_cfg_is_used(self):
-        self.check_if_config_file_is_used(self.write_setup_cfg)
-
-    def test_if_tox_ini_is_used(self):
-        self.check_if_config_file_is_used(self.write_tox_ini)
-
-    def test_if_pyproject_toml_is_used(self):
-        self.check_if_config_file_is_used(self.write_pyproject_toml)
-
-    def check_if_config_file_is_used(self, method_to_write_config):
-        (file_path, lines) = self.write_python_file(
-            'import os\n'
-            'from sys import path\n',
-        )
-        method_to_write_config('lines_between_types=1')
-
-        with OutputCapture():
-            checker = Flake8Isort(None, file_path, lines)
-            ret = list(checker.run())
-            self.assertEqual(len(ret), 1)
-            self.assertEqual(ret[0][0], 2)
-            self.assertEqual(ret[0][1], 0)
-            self.assertTrue(ret[0][2].startswith('I003 '))
+    checker = Flake8Isort(None, file_path, lines)
+    ret = list(checker.run())
+    check_isort_ret(ret, [(2, 0, 'I003 ')])
