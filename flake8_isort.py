@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-from testfixtures import OutputCapture
 
 import isort
 
 
 if hasattr(isort, 'api'):  # isort 5
+    from contextlib import redirect_stdout
+    from difflib import unified_diff
+    from io import StringIO
     from pathlib import Path
 
     import warnings
 else:
     from difflib import Differ
+    from testfixtures import OutputCapture
 
 __version__ = '4.0.0.dev0'
 
@@ -190,41 +193,45 @@ class Flake8Isort5(Flake8IsortBase):
             isort_config = isort.settings.Config(
                 settings_path=file_path.parent)
         else:
+            file_path = None
             isort_config = isort.settings.Config(
                 settings_path=Path.cwd())
-        in_string = ''.join(self.lines)
+        input_string = ''.join(self.lines)
         traceback = ''
-        iscorrect = True
-        with OutputCapture() as buffer:
-            try:
-                if self.filename is not self.stdin_display_name:
-                    iscorrect = isort.api.check_file(
-                        filename=self.filename,
-                        show_diff=True,
-                        config=isort_config)
-                else:
-                    iscorrect = isort.api.check_code_string(
-                        code=in_string,
-                        show_diff=True,
-                        config=isort_config)
-            except isort.exceptions.FileSkipped:
-                pass
-            except isort.exceptions.ISortError as e:
-                warnings.warn(e)
-        isort_output = buffer.captured
-        if not iscorrect:
-            traceback += isort_output
-            for line_num, message in self.isort_linenum_msg(isort_output):
+        isort_changed = False
+        input_stream = StringIO(input_string)
+        output_stream = StringIO()
+        isort_stdout = StringIO()
+        try:
+            with redirect_stdout(isort_stdout):
+                isort_changed = isort.api.sort_stream(
+                    input_stream=input_stream,
+                    output_stream=output_stream,
+                    config=isort_config,
+                    file_path=file_path)
+        except isort.exceptions.FileSkipped:
+            pass
+        except isort.exceptions.ISortError as e:
+            warnings.warn(e)
+        if isort_changed:
+            outlines = output_stream.getvalue()
+            diff_delta = "".join(unified_diff(
+                              input_string.splitlines(keepends=True),
+                              outlines.splitlines(keepends=True),
+                              fromfile="{}:before".format(self.filename),
+                              tofile="{}:after".format(self.filename)))
+            traceback = (isort_stdout.getvalue() + "\n" + diff_delta)
+            for line_num, message in self.isort_linenum_msg(diff_delta):
                 if self.show_traceback:
                     message += traceback
                 yield line_num, 0, message, type(self)
 
-    def isort_linenum_msg(self, isort_output):
-        """Parse isort output for line number changes and message
+    def isort_linenum_msg(self, udiff):
+        """Parse unified diff for changes and generate messages
 
         Args
         ----
-        isort_diff : the stdout of the isort check when show_diff=True
+        udiff : unified diff delta
 
         Yields
         ------
@@ -233,7 +240,7 @@ class Flake8Isort5(Flake8IsortBase):
         line_num = 0
         additions = []
         moves = []
-        for line in isort_output.splitlines():
+        for line in udiff.splitlines():
             if line.startswith('@@', 0, 2):
                 line_num = int(line[4:].split(' ')[0].split(',')[0])
                 continue
