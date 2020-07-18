@@ -127,17 +127,11 @@ testcases = [
      'ref': [(1, 0, 'I003'),
              (1, 0, 'I005')]},
 ]
-"""
-    {'name': '',
-     'config':
-     'code':
-     'ref': []},
-"""
 
 
+@pytest.mark.parametrize('mode', ["file", "code_string"])
 @pytest.mark.parametrize('testcase', testcases,
                          ids=[t['name'] for t in testcases])
-@pytest.mark.parametrize('mode', ["file", "code_string"])
 def test_flake8_isort(tmpdir, testcase, mode):
     """Test the code examples in files and directly from string"""
     with tmpdir.as_cwd():
