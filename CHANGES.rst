@@ -3,8 +3,8 @@
 Changelog
 =========
 
-4.0.0 (unreleased)
-------------------
+4.0.0a0 (2020-08-07)
+--------------------
 
 - support isort >= 5 [bnavigator, pkolbus]
 
