@@ -3,10 +3,10 @@
 Changelog
 =========
 
-3.0.2 (unreleased)
+4.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- support isort >= 5 [bnavigator, pkolbus]
 
 
 3.0.1 (2020-07-08)
