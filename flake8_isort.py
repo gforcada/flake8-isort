@@ -221,10 +221,22 @@ class Flake8Isort5(Flake8IsortBase):
                               fromfile="{}:before".format(self.filename),
                               tofile="{}:after".format(self.filename)))
             traceback = (isort_stdout.getvalue() + "\n" + diff_delta)
-            for line_num, message in self.isort_linenum_msg(diff_delta):
-                if self.show_traceback:
-                    message += traceback
-                yield line_num, 0, message, type(self)
+            generator = (
+                (line_num, 0, message, type(self))
+                for (line_num, message) in self.isort_linenum_msg(diff_delta)
+            )
+
+            if self.show_traceback:
+                output = next(generator, None)
+                for next_output in generator:
+                    yield output
+                    output = next_output
+                else:
+                    if output is not None:
+                        message = output[2] + traceback
+                        yield (*output[:2], message, *output[3:])
+            else:
+                yield from generator
 
     def isort_linenum_msg(self, udiff):
         """Parse unified diff for changes and generate messages
