@@ -4,36 +4,47 @@
 #
 #    pip-compile requirements-cov.in
 #
-atomicwrites==1.4.0       # via pytest
-attrs==19.3.0             # via pytest
-backports.functools-lru-cache==1.6.1  # via wcwidth
-certifi==2020.6.20        # via requests, urllib3
-cffi==1.14.0              # via cryptography
-chardet==3.0.4            # via requests
-configparser==4.0.2       # via importlib-metadata
-contextlib2==0.6.0.post1  # via importlib-metadata, zipp
-coverage==4.4             # via -r requirements-cov.in, coveralls, pytest-cov
-coveralls==1.11.1         # via -r requirements-cov.in
-cryptography==2.9.2       # via pyopenssl, urllib3
-docopt==0.6.2             # via coveralls
-enum34==1.1.10            # via cryptography
-funcsigs==1.0.2           # via pytest
-idna==2.10                # via requests, urllib3
-importlib-metadata==1.7.0  # via pluggy, pytest
-ipaddress==1.0.23         # via cryptography, urllib3
-more-itertools==5.0.0     # via pytest
-packaging==20.4           # via pytest
-pathlib2==2.3.5           # via importlib-metadata, pytest
-pluggy==0.13.1            # via pytest
-py==1.9.0                 # via pytest
-pycparser==2.20           # via cffi
-pyopenssl==19.1.0         # via urllib3
-pyparsing==2.4.7          # via packaging
-pytest-cov==2.10.0        # via -r requirements-cov.in
-pytest==4.6.11            # via pytest-cov
-requests==2.24.0          # via coveralls
-scandir==1.10.0           # via pathlib2
-six==1.15.0               # via cryptography, more-itertools, packaging, pathlib2, pyopenssl, pytest
-urllib3[secure]==1.25.9   # via coveralls, requests
-wcwidth==0.2.5            # via pytest
-zipp==1.2.0               # via importlib-metadata
+atomicwrites==1.4.0
+    # via pytest
+attrs==19.3.0
+    # via pytest
+certifi==2020.6.20
+    # via requests
+chardet==3.0.4
+    # via requests
+coverage==4.4
+    # via
+    #   -r requirements-cov.in
+    #   coveralls
+    #   pytest-cov
+coveralls==1.11.1
+    # via -r requirements-cov.in
+docopt==0.6.2
+    # via coveralls
+idna==2.10
+    # via requests
+more-itertools==5.0.0
+    # via pytest
+packaging==20.4
+    # via pytest
+pluggy==0.13.1
+    # via pytest
+py==1.10.0
+    # via pytest
+pyparsing==2.4.7
+    # via packaging
+pytest-cov==2.10.0
+    # via -r requirements-cov.in
+pytest==4.6.11
+    # via pytest-cov
+requests==2.24.0
+    # via coveralls
+six==1.15.0
+    # via
+    #   more-itertools
+    #   packaging
+    #   pytest
+urllib3==1.25.9
+    # via requests
+wcwidth==0.2.5
+    # via pytest
