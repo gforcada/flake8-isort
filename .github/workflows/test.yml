@@ -1,0 +1,57 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  test:
+    name: "Python ${{ matrix.versions.python }} | isort${{ matrix.versions.isort }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - python: "2.7"
+            isort: ">=4,<5"
+          - python: "3.5"
+            isort: ">=4,<5"
+          - python: "3.6"
+            isort: ">=4,<5"
+          - python: "3.6"
+            isort: ">=5,<6"
+          - python: "3.7"
+            isort: ">=4,<5"
+          - python: "3.7"
+            isort: ">=5,<6"
+          - python: "3.8"
+            isort: ">=4,<5"
+          - python: "3.8"
+            isort: ">=5,<6"
+          - python: "pypy2"
+            isort: ">=4,<5"
+          - python: "pypy3"
+            isort: ">=4,<5"
+          - python: "pypy3"
+            isort: ">=5,<6"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.versions.python }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.versions.python }}
+      - name: Install dependencies
+        run: |
+          pip install 'isort${{ matrix.versions.isort }}'
+          pip install '.[test]'
+      - name: Run flake8
+        run: flake8 *.py
+      - name: Run tests
+        run: pytest -v
+      - name: Install coverage
+        run: pip install -q -r requirements-cov.txt
+      - name: Run tests with coverage
+        run: pytest -v --cov flake8_isort --cov-report term-missing
+      - name: Report coverage
+        run: coveralls
