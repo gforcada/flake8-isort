@@ -56,7 +56,7 @@ setup(
     test_suite='run_tests',
     zip_safe=False,
     install_requires=[
-        'flake8 >= 3.2.1, <4',
+        'flake8 >= 3.2.1, <5',
         'isort >= 4.3.5, <6',
         'testfixtures >= 6.8.0, <7',
     ],

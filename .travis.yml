@@ -9,19 +9,34 @@ python:
   - 'pypy'
   - 'pypy3'
 env:
-  - ISORT_VER="4"
-  - ISORT_VER="5"
+  - ISORT_VER="4" FLAKE8_VER="3"
+  - ISORT_VER="5" FLAKE8_VER="3"
+  - ISORT_VER="4" FLAKE8_VER="4"
+  - ISORT_VER="5" FLAKE8_VER="4"
 jobs:
   exclude:
     - python: "2.7"
-      env: ISORT_VER="5"
+      env: ISORT_VER="5" FLAKE8_VER="3"
+    - python: "2.7"
+      env: ISORT_VER="5" FLAKE8_VER="4"
+    - python: "2.7"
+      env: ISORT_VER="4" FLAKE8_VER="4"
     - python: "3.5"
-      env: ISORT_VER="5"
+      env: ISORT_VER="5" FLAKE8_VER="3"
+    - python: "3.5"
+      env: ISORT_VER="5" FLAKE8_VER="4"
+    - python: "3.5"
+      env: ISORT_VER="4" FLAKE8_VER="4"
     - python: "pypy"
-      env: ISORT_VER="5"
+      env: ISORT_VER="5" FLAKE8_VER="3"
+    - python: "pypy"
+      env: ISORT_VER="5" FLAKE8_VER="4"
+    - python: "pypy"
+      env: ISORT_VER="4" FLAKE8_VER="4"
 cache: pip
 install:
   - if [[ $ISORT_VER == "4" ]]; then pip install 'isort < 5'; fi
+  - if [[ $FLAKE8_VER == "3" ]]; then pip install 'flake8 < 4'; fi
   - pip install .[test]
 script:
   - flake8 *.py
