@@ -1,7 +1,7 @@
 .. -*- coding: utf-8 -*-
 
-.. image:: https://travis-ci.org/gforcada/flake8-isort.svg?branch=master
-   :target: https://travis-ci.org/gforcada/flake8-isort
+.. image:: https://github.com/gforcada/flake8-isort/actions/workflows/test.yml/badge.svg?branch=master
+   :target: https://github.com/gforcada/flake8-isort/actions/workflows/test.yml
 
 .. image:: https://coveralls.io/repos/gforcada/flake8-isort/badge.svg?branch=master&service=github
    :target: https://coveralls.io/github/gforcada/flake8-isort?branch=master
