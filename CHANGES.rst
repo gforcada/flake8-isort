@@ -3,7 +3,7 @@
 Changelog
 =========
 
-4.0.1 (unreleased)
+4.1.0 (2021-10-14)
 ------------------
 
 - Support flake8 4.x [g-as]
