@@ -6,7 +6,9 @@ Changelog
 4.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support flake8 4.x [g-as]
+
+- Switch from travis-ci to github actions. [g-as]
 
 
 4.0.0 (2020-08-11)
