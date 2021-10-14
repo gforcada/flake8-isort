@@ -36,10 +36,9 @@ jobs:
         run: flake8 *.py
       - name: pytest
         run: pytest -v --cov flake8_isort --cov-report term-missing
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        if: ${{ always() }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          fail_ci_if_error: true
-          verbose: true
+      - name: Upload coverage
+        run: |
+          python -m pip install coveralls
+          coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
