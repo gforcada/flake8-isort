@@ -14,7 +14,7 @@ else:
     from difflib import Differ
     from testfixtures import OutputCapture
 
-__version__ = '4.1.1'
+__version__ = '4.1.2.dev0'
 
 
 class Flake8IsortBase(object):
