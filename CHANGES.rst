@@ -6,7 +6,7 @@ Changelog
 4.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Release py3 only wheels..
 
 
 4.1.0 (2021-10-14)
@@ -15,6 +15,8 @@ Changelog
 - Support flake8 4.x [g-as]
 
 - Switch from travis-ci to github actions. [g-as]
+
+- Drop python 2.7 support and 3.5 as well [g-as]
 
 
 4.0.0 (2020-08-11)
