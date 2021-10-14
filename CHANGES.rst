@@ -3,7 +3,7 @@
 Changelog
 =========
 
-4.1.1 (unreleased)
+4.1.1 (2021-10-14)
 ------------------
 
 - Release py3 only wheels..
