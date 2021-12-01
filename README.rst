@@ -27,7 +27,7 @@ Install with conda::
 
 Configuration
 -------------
-If using the `select` [option from flake8](http://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select) be sure to enable the `I` category as well, see below for the specific error codes reported by `flake8-isort`.
+If using the `select` `option from flake8`_ be sure to enable the `I` category as well, see below for the specific error codes reported by `flake8-isort`.
 
 Error codes
 -----------
@@ -65,3 +65,4 @@ GPL 2.0
 .. _`isort`: https://pypi.python.org/pypi/isort
 .. _`isort documentation`: https://github.com/timothycrosley/isort/wiki/isort-Settings
 .. _`flake8-import-order`: https://pypi.python.org/pypi/flake8-import-order
+.. _`option from flake8`: http://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select
