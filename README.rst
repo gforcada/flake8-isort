@@ -63,6 +63,6 @@ License
 GPL 2.0
 
 .. _`isort`: https://pypi.python.org/pypi/isort
-.. _`isort documentation`: https://github.com/timothycrosley/isort/wiki/isort-Settings
+.. _`isort documentation`: https://pycqa.github.io/isort/docs/configuration/options.html
 .. _`flake8-import-order`: https://pypi.python.org/pypi/flake8-import-order
 .. _`option from flake8`: http://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select
