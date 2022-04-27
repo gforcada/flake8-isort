@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from contextlib import redirect_stdout
+from difflib import Differ
+from difflib import unified_diff
+from io import StringIO
+from pathlib import Path
+
 import isort
+import warnings
 
-
-if hasattr(isort, 'api'):  # isort 5
-    from contextlib import redirect_stdout
-    from difflib import unified_diff
-    from io import StringIO
-    from pathlib import Path
-
-    import warnings
-else:
-    from difflib import Differ
-    from testfixtures import OutputCapture
 
 __version__ = '4.1.2.dev0'
 
@@ -46,7 +42,6 @@ class Flake8IsortBase(object):
 
     @classmethod
     def add_options(cls, parser):
-
         parser.add_option(
             '--isort-show-traceback',
             action='store_true',
@@ -68,7 +63,8 @@ class Flake8Isort4(Flake8IsortBase):
             file_path = self.filename
         else:
             file_path = None
-        with OutputCapture() as buffer:
+        buffer = StringIO()
+        with redirect_stdout(buffer):
             sort_result = isort.SortImports(
                 file_path=file_path,
                 file_contents=''.join(self.lines),
@@ -129,7 +125,7 @@ class Flake8Isort4(Flake8IsortBase):
         valid_lines = ['']
         valid_lines += [
             line
-            for line in isort_buffer.output.getvalue().splitlines()
+            for line in isort_buffer.getvalue().splitlines()
             if line.strip().split(' ', 1)[0] not in filtering_out
         ]
 

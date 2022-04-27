@@ -30,6 +30,10 @@ jobs:
           architecture: x64
       - name: Install matrix dependencies
         run: pip install 'isort==${{ matrix.isort }}' 'flake8==${{ matrix.flake8 }}'
+      # isort 4.x requires `toml` to be able to read pyproject.toml, so install it...
+      - name: Install toml if required
+        run: pip install toml
+        if: matrix.isort == '4.3.21'
       - name: Install dependencies
         run: pip install .[test]
       - name: flake8
