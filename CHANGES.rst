@@ -6,7 +6,7 @@ Changelog
 4.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- The package no longer depends on ``testfixtures``. 
 
 
 4.1.1 (2021-10-14)
