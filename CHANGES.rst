@@ -6,7 +6,7 @@ Changelog
 4.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Release it as a wheel as well. [gforcada]
 
 
 4.1.2 (2022-07-25)
