@@ -10,7 +10,7 @@ import isort
 import warnings
 
 
-__version__ = '4.1.2.post0'
+__version__ = '4.1.2.post1.dev0'
 
 
 class Flake8IsortBase(object):
