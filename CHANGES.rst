@@ -3,7 +3,7 @@
 Changelog
 =========
 
-4.1.2 (unreleased)
+4.1.2 (2022-07-25)
 ------------------
 
 - The package no longer depends on ``testfixtures``. 
