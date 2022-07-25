@@ -3,8 +3,8 @@
 Changelog
 =========
 
-4.1.3 (unreleased)
-------------------
+4.1.2.post0 (2022-07-25)
+------------------------
 
 - Release it as a wheel as well. [gforcada]
 
