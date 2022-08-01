@@ -55,7 +55,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'flake8 >= 3.2.1, <5',
+        'flake8 >= 3.2.1, <6',
         'isort >= 4.3.5, <6',
     ],
     extras_require={
