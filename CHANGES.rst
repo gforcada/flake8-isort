@@ -6,7 +6,7 @@ Changelog
 4.1.2.post1 (unreleased)
 ------------------------
 
-- Nothing changed yet.
+- Fix compatibility with flake8 version 5. [nhymxu]
 
 
 4.1.2.post0 (2022-07-25)
