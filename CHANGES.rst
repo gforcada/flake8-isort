@@ -3,8 +3,8 @@
 Changelog
 =========
 
-4.1.2.post1 (unreleased)
-------------------------
+4.2.0 (2022-08-04)
+------------------
 
 - Fix compatibility with flake8 version 5. [nhymxu]
 
