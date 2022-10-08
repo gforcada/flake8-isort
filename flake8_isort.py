@@ -193,15 +193,15 @@ class Flake8Isort5(Flake8IsortBase):
             warnings.warn(e)
         if isort_changed:
             outlines = output_stream.getvalue()
-            diff_delta = "".join(
+            diff_delta = ''.join(
                 unified_diff(
                     input_string.splitlines(keepends=True),
                     outlines.splitlines(keepends=True),
-                    fromfile=f"{self.filename}:before",
-                    tofile=f"{self.filename}:after",
+                    fromfile=f'{self.filename}:before',
+                    tofile=f'{self.filename}:after',
                 )
             )
-            traceback = isort_stdout.getvalue() + "\n" + diff_delta
+            traceback = f'{isort_stdout.getvalue()}\n{diff_delta}'
             for line_num, message in self.isort_linenum_msg(diff_delta):
                 if self.show_traceback:
                     message += traceback
