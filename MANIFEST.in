@@ -1,3 +1,11 @@
-include MANIFEST.in LICENSE *.rst *.py *.cfg *.ini
-exclude .installed.cfg .coveragerc *.pyc
+include MANIFEST.in
+include LICENSE
+include setup.cfg
+include *.rst
+include *.py
+include *requirements.txt
 
+exclude .installed.cfg
+exclude .coveragerc
+exclude *.pyc
+exclude *.in

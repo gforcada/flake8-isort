@@ -6,8 +6,13 @@ Changelog
 4.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update dependencies. [gforcada]
 
+- Revamp GitHub actions. [gforcada]
+
+- Drop python 3.6, and add python 3.10. [gforcada]
+
+- Use linters and formatters to keep code sane and beautiful. [gforcada]
 
 4.2.0 (2022-08-04)
 ------------------

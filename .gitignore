@@ -1,8 +1,10 @@
 *.egg-info
 *.pyc
 
+.cache
 .coverage
 .installed.cfg
+.hypothesis
 bin
 develop-eggs
 include

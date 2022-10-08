@@ -1,9 +1,9 @@
 .. -*- coding: utf-8 -*-
 
-.. image:: https://github.com/gforcada/flake8-isort/actions/workflows/tests.yml/badge.svg?branch=master
-   :target: https://github.com/gforcada/flake8-isort/actions/workflows/tests.yml
+.. image:: https://github.com/gforcada/flake8-isort/actions/workflows/testing.yml/badge.svg?branch=master
+   :target: https://github.com/gforcada/flake8-isort/actions/workflows/testing.yml
 
-.. image:: https://coveralls.io/repos/gforcada/flake8-isort/badge.svg?branch=master&service=github
+.. image:: https://coveralls.io/repos/gforcada/flake8-isort/badge.svg?branch=master
    :target: https://coveralls.io/github/gforcada/flake8-isort?branch=master
 
 Flake8 meet isort
@@ -47,7 +47,7 @@ Error codes
 
 Requirements
 ------------
-- Python 2.7, 3.5, 3.6, pypy or pypy3
+- Python 3.7, 3.8, 3.9, 3.10 and pypy3
 - flake8
 - isort
 
