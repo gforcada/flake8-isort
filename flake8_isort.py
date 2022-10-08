@@ -10,12 +10,9 @@ import isort
 import warnings
 
 
-__version__ = '4.2.1.dev0'
-
-
 class Flake8IsortBase(object):
     name = 'flake8_isort'
-    version = __version__
+    version = '4.2.1'
     isort_unsorted = (
         'I001 isort found an import in the wrong position'
     )
