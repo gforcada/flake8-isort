@@ -1,48 +1,73 @@
-name: Tests
-
+name: Testing
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
-    paths:
-      - "flake8_isort.py"
-      - "test_flake8_isort.py"
-      - "setup.py"
-      - ".github/workflows/tests.yml"
-
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+  test:
     name: Python ${{ matrix.python-version }} x isort ${{ matrix.isort }} x flake8 ${{ matrix.flake8 }}
-
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10', 'pypy3']
+        python-version: ["3.10", 3.9, 3.8, 3.7, pypy-3.9]
         isort: [4.3.21, 5.10.1]
         flake8: [3.9.2, 4.0.1, 5.0.4]
-
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          architecture: x64
-      - name: Install matrix dependencies
-        run: pip install 'isort==${{ matrix.isort }}' 'flake8==${{ matrix.flake8 }}'
+      - name: Cache packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+      - name: pip version
+        run: pip --version
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          pip install 'isort==${{ matrix.isort }}' 'flake8==${{ matrix.flake8 }}'
       # isort 4.x requires `toml` to be able to read pyproject.toml, so install it...
       - name: Install toml if required
         run: pip install toml
         if: matrix.isort == '4.3.21'
-      - name: Install dependencies
-        run: pip install .[test]
-      - name: flake8
-        run: flake8 *.py
-      - name: pytest
-        run: pytest -v --cov flake8_isort --cov-report term-missing
-      - name: Upload coverage
+      # formatters
+      - name: Run pyupgrade
+        if: matrix.python-version == '3.9'
+        run: pyupgrade --py37-plus *.py
+      - name: Run isort
+        if: matrix.python-version == '3.9'
+        run: isort --check-only *.py
+      - name: Run black
+        if: matrix.python-version == '3.9'
+        run: black --check --skip-string-normalization *.py
+      # linters
+      - name: Lint with bandit
+        if: matrix.python-version == '3.9'
+        run: bandit --skip B101 *.py  # B101 is assert statements
+      - name: Lint with codespell
+        if: matrix.python-version == '3.9'
+        run: codespell *.rst *.py
+      - name: Lint with flake8
+        if: matrix.python-version == '3.9'
+        run: flake8 *.py --count --max-complexity=18 --max-line-length=88 --show-source --statistics
+      - name: Lint with mypy
+        if: matrix.python-version == '3.9'
         run: |
-          python -m pip install coveralls
-          coveralls --service=github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          mkdir --parents --verbose .mypy_cache
+          mypy --ignore-missing-imports --install-types --non-interactive *.py || true
+      - name: Lint with safety
+        if: matrix.python-version == '3.9'
+        run: safety check  || true
+      # tests and coverage
+      - name: Test
+        run: pytest run_tests.py --cov --cov-report term-missing
+      - name: Coverage
+        run: coveralls --service=github
