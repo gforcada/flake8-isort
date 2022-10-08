@@ -46,7 +46,9 @@ setup(
     author_email='gil.gnome@gmail.com',
     url='https://github.com/gforcada/flake8-isort',
     license='GPL version 2',
-    py_modules=['flake8_isort', ],
+    py_modules=[
+        'flake8_isort',
+    ],
     include_package_data=True,
     test_suite='run_tests',
     zip_safe=False,
@@ -60,6 +62,8 @@ setup(
         ],
     },
     entry_points={
-        'flake8.extension': ['I00 = flake8_isort:Flake8Isort', ],
+        'flake8.extension': [
+            'I00 = flake8_isort:Flake8Isort',
+        ],
     },
 )

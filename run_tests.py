@@ -52,86 +52,90 @@ def check_isort_ret(ret, ref):
 
 
 testcases = [
-    {'name': 'sorted_correctly_default',
-     'code': ('import os\n'
-              'from sys import path\n'),
-     'ref': []},
-    {'name': 'sorted_correctly_alpha',
-     'config': 'force_single_line=True\n'
-               'force_alphabetical_sort=True\n',
-     'code': 'from sys import path\n'
-             '\n'
-             'import os\n',
-     'ref': []},
-    {'name': 'eof_blank_lines',
-     'code': 'import os\n'
-             'from sys import path\n'
-             '\n'
-             '\n'
-             '   \n',
-     'ref': []},
-    {'name': 'imports_requires_blank_line',
-     'code': 'from __future__ import division\n'
-             'import threading\n'
-             'from sys import pid\n',
-     'ref': [(2, 0, 'I003 ')]},
-    {'name': 'isortcfg_skip_file',
-     'config': 'skip=test.py',
-     'code': 'skipped_file',
-     'ref': []},
-    {'name': 'file_skipped_with_comment',
-     'code': '# isort:skip_file',
-     'ref': []},
-    {'name': 'imports_unexpected_blank_line',
-     'code': 'from __future__ import division\n'
-             '\n'
-             'import threading\n'
-             '\n'
-             'from sys import pid\n',
-     'ref': [(4, 0, 'I004 ')]},
-    {'name': 'sorted_incorrectly_multiple',
-     'code': 'from __future__ import division\n'
-             'import os\n'
-             'from sys import pid\n'
-             'import threading\n'
-             '\n'
-             'import isort\n'
-             '\n\n\n'
-             'def func()\n',
-     'ref': [(2, 0, 'I003 '),
-             (4, 0, 'I001 '),
-             (9, 0, 'I004 ')]},
-    {'name': 'sorted_incorrectly',
-     'config': 'force_single_line=True',
-     'code': 'from sys import pid\n'
-             'import threading',
-     'ref': [(2, 0, 'I001 ')]},
-    {'name': 'empty_file',
-     'code': '\n\n',
-     'ref': []},
-    {'name': 'wrapped_imports',
-     'config': 'wrap_length=65',
-     'code': 'from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed,\n'
-             '                           ftime, get_path_size, is_infohash,\n'
-             '                           is_ip, is_magnet, is_url)\n',
-     'ref': []},
-    {'name': 'force_single_line_imports',
-     'config': 'force_alphabetical_sort=True\n'
-               'force_single_line=True',
-     'code': 'from plone.app.testing import applyProfile\n'
-             'from plone.app.testing import FunctionalTesting\n',
-     'ref': []},
-    {'name': 'missing_add_imports',
-     'config': 'add_imports=from __future__ import unicode_literals',
-     'code': 'import os\n',
-     'ref': [(1, 0, 'I003'),
-             (1, 0, 'I005')]},
+    {
+        'name': 'sorted_correctly_default',
+        'code': ('import os\n' 'from sys import path\n'),
+        'ref': [],
+    },
+    {
+        'name': 'sorted_correctly_alpha',
+        'config': 'force_single_line=True\n' 'force_alphabetical_sort=True\n',
+        'code': 'from sys import path\n' '\n' 'import os\n',
+        'ref': [],
+    },
+    {
+        'name': 'eof_blank_lines',
+        'code': 'import os\n' 'from sys import path\n' '\n' '\n' '   \n',
+        'ref': [],
+    },
+    {
+        'name': 'imports_requires_blank_line',
+        'code': 'from __future__ import division\n'
+        'import threading\n'
+        'from sys import pid\n',
+        'ref': [(2, 0, 'I003 ')],
+    },
+    {
+        'name': 'isortcfg_skip_file',
+        'config': 'skip=test.py',
+        'code': 'skipped_file',
+        'ref': [],
+    },
+    {'name': 'file_skipped_with_comment', 'code': '# isort:skip_file', 'ref': []},
+    {
+        'name': 'imports_unexpected_blank_line',
+        'code': 'from __future__ import division\n'
+        '\n'
+        'import threading\n'
+        '\n'
+        'from sys import pid\n',
+        'ref': [(4, 0, 'I004 ')],
+    },
+    {
+        'name': 'sorted_incorrectly_multiple',
+        'code': 'from __future__ import division\n'
+        'import os\n'
+        'from sys import pid\n'
+        'import threading\n'
+        '\n'
+        'import isort\n'
+        '\n\n\n'
+        'def func()\n',
+        'ref': [(2, 0, 'I003 '), (4, 0, 'I001 '), (9, 0, 'I004 ')],
+    },
+    {
+        'name': 'sorted_incorrectly',
+        'config': 'force_single_line=True',
+        'code': 'from sys import pid\n' 'import threading',
+        'ref': [(2, 0, 'I001 ')],
+    },
+    {'name': 'empty_file', 'code': '\n\n', 'ref': []},
+    {
+        'name': 'wrapped_imports',
+        'config': 'wrap_length=65',
+        'code': 'from deluge.common import (fdate, fpcnt, fpeer, fsize, fspeed,\n'
+        '                           ftime, get_path_size, is_infohash,\n'
+        '                           is_ip, is_magnet, is_url)\n',
+        'ref': [],
+    },
+    {
+        'name': 'force_single_line_imports',
+        'config': 'force_alphabetical_sort=True\n' 'force_single_line=True',
+        'code': 'from plone.app.testing import applyProfile\n'
+        'from plone.app.testing import FunctionalTesting\n',
+        'ref': [],
+    },
+    {
+        'name': 'missing_add_imports',
+        'config': 'add_imports=from __future__ import unicode_literals',
+        'code': 'import os\n',
+        'ref': [(1, 0, 'I003'), (1, 0, 'I005')],
+    },
 ]
 
 
 @pytest.mark.parametrize('mode', ["file", "code_string"])
-@pytest.mark.parametrize('testcase', testcases,
-                         ids=[t['name'] for t in testcases])
+@pytest.mark.parametrize('testcase', testcases, ids=[t['name'] for t in testcases])
 def test_flake8_isort(tmpdir, testcase, mode):
     """Test the code examples in files and directly from string"""
     with tmpdir.as_cwd():
@@ -151,8 +155,7 @@ def test_flake8_isort(tmpdir, testcase, mode):
 def test_isortcfg_found(tmpdir):
     (file_path, lines) = write_python_file(
         tmpdir,
-        'from sys import pid\n'
-        'import threading',
+        'from sys import pid\n' 'import threading',
     )
     write_isort_cfg(tmpdir, 'force_single_line=True')
     checker = Flake8Isort(None, file_path, lines)
@@ -162,10 +165,7 @@ def test_isortcfg_found(tmpdir):
 
 
 def test_isortcfg_not_found(tmpdir):
-    (file_path, lines) = write_python_file(
-        tmpdir,
-        'from sys import pid, path'
-    )
+    (file_path, lines) = write_python_file(tmpdir, 'from sys import pid, path')
     checker = Flake8Isort(None, file_path, lines)
     checker.search_current = False
     checker.config_file = True
@@ -175,18 +175,12 @@ def test_isortcfg_not_found(tmpdir):
 
 def test_isort_formatted_output(tmpdir):
     options = collections.namedtuple(
-        'Options', [
-            'no_isort_config',
-            'isort_show_traceback',
-            'stdin_display_name'
-        ]
+        'Options', ['no_isort_config', 'isort_show_traceback', 'stdin_display_name']
     )
 
     (file_path, lines) = write_python_file(
         tmpdir,
-        'from __future__ import division\n'
-        'import os\n'
-        'from sys import pid\n',
+        'from __future__ import division\n' 'import os\n' 'from sys import pid\n',
     )
 
     diff = ' from __future__ import division\n+\n import os'
@@ -202,12 +196,12 @@ def test_isort_formatted_output(tmpdir):
 
 @pytest.mark.parametrize(
     'method_to_write_config',
-    [write_isort_cfg, write_setup_cfg, write_tox_ini, write_pyproject_toml])
+    [write_isort_cfg, write_setup_cfg, write_tox_ini, write_pyproject_toml],
+)
 def test_if_config_file_is_used(tmpdir, method_to_write_config):
     (file_path, lines) = write_python_file(
         tmpdir,
-        'import os\n'
-        'from sys import path\n',
+        'import os\n' 'from sys import path\n',
     )
     method_to_write_config(tmpdir, 'lines_between_types=1')
 
