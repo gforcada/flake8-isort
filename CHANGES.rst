@@ -3,7 +3,7 @@
 Changelog
 =========
 
-4.2.1 (unreleased)
+5.0.0 (2022-10-08)
 ------------------
 
 - Update dependencies. [gforcada]
