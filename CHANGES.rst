@@ -6,8 +6,7 @@ Changelog
 5.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Improve the config option is added and read back. [gforcada]
 
 5.0.0 (2022-10-08)
 ------------------
