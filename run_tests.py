@@ -223,7 +223,7 @@ def test_isort_formatted_output(tmpdir):
     diff = ' from __future__ import division\n+\n import os'
 
     checker = Flake8Isort(None, file_path, lines)
-    checker.parse_options(options(None, True, 'stdin'))
+    checker.parse_options(None, options(None, True, 'stdin'), None)
     ret = list(checker.run())
     assert len(ret) == 1
     assert ret[0][0] == 3
