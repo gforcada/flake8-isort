@@ -24,19 +24,17 @@ class Flake8IsortBase:
         self.filename = filename
         self.lines = lines
 
-    @classmethod
-    def add_options(cls, parser):
-        parser.add_option(
+    def add_options(option_manager):
+        option_manager.add_option(
             '--isort-show-traceback',
             action='store_true',
             parse_from_config=True,
             help='Show full traceback with diff from isort',
         )
 
-    @classmethod
-    def parse_options(cls, options):
-        cls.stdin_display_name = options.stdin_display_name
-        cls.show_traceback = options.isort_show_traceback
+    def parse_options(self, option_manager, options, args):
+        self.stdin_display_name = options.stdin_display_name
+        self.show_traceback = options.isort_show_traceback
 
 
 class Flake8Isort4(Flake8IsortBase):
