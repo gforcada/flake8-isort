@@ -18,6 +18,5 @@ mypy
 pytest
 pytest-cov
 pyupgrade
-safety
 typed-ast; python_version < '3.8'  # dependency of black and mypy
 zipp; python_version < '3.8'  # dependency of importlib-metadata
