@@ -81,9 +81,6 @@ jobs:
         run: |
           mkdir --parents --verbose .mypy_cache
           mypy --ignore-missing-imports --install-types --non-interactive *.py || true
-      - name: Lint with safety
-        if: matrix.qa == 'true'
-        run: safety check  || true
       # tests and coverage
       - name: Test
         run: pytest run_tests.py --cov --cov-report term-missing
