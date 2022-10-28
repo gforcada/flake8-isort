@@ -1,0 +1,22 @@
+bandit
+black
+codespell
+coveralls
+flake8-blind-except
+flake8-bugbear
+flake8-comprehensions
+flake8-debugger
+flake8-deprecated
+flake8-isort
+flake8-pep3101
+flake8-print
+flake8-quotes
+flake8-todo
+importlib-metadata; python_version < '3.8'
+isort
+mypy
+pytest
+pytest-cov
+pyupgrade
+typed-ast; python_version < '3.8'  # dependency of black and mypy
+zipp; python_version < '3.8'  # dependency of importlib-metadata
