@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", 3.9, 3.8, 3.7, pypy-3.9]
+        python-version: ["3.11", "3.10", 3.9, 3.8, 3.7, pypy-3.9]
         isort: [5.10.1]
         flake8: [5.0.4]
         include:
