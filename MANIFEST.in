@@ -3,7 +3,7 @@ include LICENSE
 include setup.cfg
 include *.rst
 include *.py
-include *requirements.txt
+include requirements*.txt
 
 exclude .installed.cfg
 exclude .coveragerc
