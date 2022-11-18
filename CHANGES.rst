@@ -8,6 +8,8 @@ Changelog
 
 - Improve the config option is added and read back. [gforcada]
 
+- Bump plugin version. [gforcada]
+
 5.0.0 (2022-10-08)
 ------------------
 
