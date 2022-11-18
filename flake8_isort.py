@@ -24,7 +24,7 @@ class Flake8IsortBase:
         self.filename = filename
         self.lines = lines
 
-    def add_options(option_manager):
+    def add_options(self, option_manager):
         option_manager.add_option(
             '--isort-show-traceback',
             action='store_true',
