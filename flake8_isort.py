@@ -9,7 +9,7 @@ import isort
 
 class Flake8IsortBase:
     name = 'flake8_isort'
-    version = '4.2.1'
+    version = '5.0.1'
     isort_unsorted = 'I001 isort found an import in the wrong position'
     no_config_msg = 'I002 no configuration found (.isort.cfg or [isort] in configs)'
     isort_blank_req = 'I003 isort expected 1 blank line in imports, found 0'
