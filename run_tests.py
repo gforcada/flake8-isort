@@ -258,4 +258,7 @@ def test_flake8(tmpdir):
     (file_path, lines) = write_python_file(tmpdir, 'from sys import pid, path')
 
     sys.argv = sys.argv[:2]
-    assert isinstance(cli.main(), int)
+    try:
+        assert isinstance(cli.main(), int)
+    except SystemExit:
+        pass
