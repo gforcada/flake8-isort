@@ -3,7 +3,7 @@
 Changelog
 =========
 
-5.0.3 (unreleased)
+5.0.3 (2022-11-20)
 ------------------
 
 - Fix broken `add_options` method, again. [casperdcl]
