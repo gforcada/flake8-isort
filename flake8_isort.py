@@ -24,7 +24,8 @@ class Flake8IsortBase:
         self.filename = filename
         self.lines = lines
 
-    def add_options(self, option_manager):
+    @staticmethod
+    def add_options(option_manager):
         option_manager.add_option(
             '--isort-show-traceback',
             action='store_true',
@@ -32,9 +33,10 @@ class Flake8IsortBase:
             help='Show full traceback with diff from isort',
         )
 
-    def parse_options(self, option_manager, options, args):
-        self.stdin_display_name = options.stdin_display_name
-        self.show_traceback = options.isort_show_traceback
+    @classmethod
+    def parse_options(cls, option_manager, options, args):
+        cls.stdin_display_name = options.stdin_display_name
+        cls.show_traceback = options.isort_show_traceback
 
 
 class Flake8Isort4(Flake8IsortBase):
