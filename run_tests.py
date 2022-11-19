@@ -249,3 +249,10 @@ def test_if_config_file_is_used(tmpdir, method_to_write_config):
     checker = Flake8Isort(None, file_path, lines)
     ret = list(checker.run())
     check_isort(ret, [(3, 0, 'I003 ')])
+
+
+def test_flake8(tmpdir):
+    from flake8.main import cli
+
+    (file_path, lines) = write_python_file(tmpdir, 'from sys import pid, path')
+    assert isinstance(cli.main(), int)
