@@ -253,6 +253,9 @@ def test_if_config_file_is_used(tmpdir, method_to_write_config):
 
 def test_flake8(tmpdir):
     from flake8.main import cli
+    import sys
 
     (file_path, lines) = write_python_file(tmpdir, 'from sys import pid, path')
+
+    sys.argv = sys.argv[:2]
     assert isinstance(cli.main(), int)
