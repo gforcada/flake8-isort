@@ -10,9 +10,9 @@ from pkg_resources import DistributionNotFound, get_distribution
 
 def _version():
     try:
-        return get_distribution("flake8_isort").version
+        return get_distribution('flake8_isort').version
     except DistributionNotFound:
-        return "dev"  # for local development if package is not installed yet
+        return 'dev'  # for local development if package is not installed yet
 
 
 class Flake8IsortBase:
