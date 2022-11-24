@@ -5,11 +5,19 @@ from io import StringIO
 from pathlib import Path
 
 import isort
+from pkg_resources import DistributionNotFound, get_distribution
+
+
+def _version():
+    try:
+        return get_distribution("flake8_isort").version
+    except DistributionNotFound:
+        return "dev"  # for local development if package is not installed yet
 
 
 class Flake8IsortBase:
     name = 'flake8_isort'
-    version = '5.0.1'
+    version = _version()
     isort_unsorted = 'I001 isort found an import in the wrong position'
     no_config_msg = 'I002 no configuration found (.isort.cfg or [isort] in configs)'
     isort_blank_req = 'I003 isort expected 1 blank line in imports, found 0'
