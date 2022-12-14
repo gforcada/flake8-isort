@@ -55,7 +55,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'flake8',
-        'isort >= 4.3.5, <6',
+        'isort >= 5.0.0, <6',
     ],
     extras_require={
         'test': [

@@ -6,8 +6,8 @@ Changelog
 5.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Drop isort 4.x support.
+  [gforcada]
 
 5.0.3 (2022-11-20)
 ------------------

@@ -1,6 +1,6 @@
 import warnings
 from contextlib import redirect_stdout
-from difflib import Differ, unified_diff
+from difflib import unified_diff
 from io import StringIO
 from pathlib import Path
 
@@ -45,130 +45,6 @@ class Flake8IsortBase:
     def parse_options(cls, option_manager, options, args):
         cls.stdin_display_name = options.stdin_display_name
         cls.show_traceback = options.isort_show_traceback
-
-
-class Flake8Isort4(Flake8IsortBase):
-    """class for isort <5"""
-
-    def run(self):
-        if self.filename is not self.stdin_display_name:
-            file_path = self.filename
-        else:
-            file_path = None
-        buffer = StringIO()
-        with redirect_stdout(buffer):
-            sort_result = isort.SortImports(
-                file_path=file_path,
-                file_contents=''.join(self.lines),
-                check=True,
-                show_diff=True,
-            )
-        traceback = self._format_isort_output(buffer)
-
-        for line_num, message in self.sortimports_linenum_msg(sort_result):
-            if self.show_traceback:
-                message += traceback
-            yield line_num, 0, message, type(self)
-
-    def sortimports_linenum_msg(self, sort_result):
-        """Parses isort.SortImports for line number changes and message
-
-        Uses a diff.Differ comparison of SortImport `in_lines`:`out_lines` to
-        yield the line numbers of import lines that have been moved or blank
-        lines added.
-
-        Args:
-            sort_imports (isort.SortImports): The isorts results object.
-
-        Yields:
-            tuple: A tuple of the specific isort line number and message.
-        """
-        if sort_result.skipped:
-            return
-
-        self._fixup_sortimports_wrapped(sort_result)
-        self._fixup_sortimports_eof(sort_result)
-
-        differ = Differ()
-        diff = differ.compare(sort_result.in_lines, sort_result.out_lines)
-
-        line_num = 0
-        additions = {f'+ {add_import}' for add_import in sort_result.add_imports}
-        for line in diff:
-            if line.startswith('  ', 0, 2):
-                line_num += 1  # Ignore unchanged lines but increment line_num.
-            elif line.startswith('- ', 0, 2):
-                line_num += 1
-                if line.strip() == '-':
-                    yield line_num, self.isort_blank_unexp
-                else:
-                    yield line_num, self.isort_unsorted
-            elif line.strip() == '+':
-                # Include newline additions but do not increment line_num.
-                yield line_num + 1, self.isort_blank_req
-            elif line.strip() in additions:
-                yield line_num + 1, self.isort_add_unexp
-
-    def _format_isort_output(self, isort_buffer):
-        filtering_out = ('+++', '---', '@@', 'ERROR:')
-
-        valid_lines = ['']
-        valid_lines += [
-            line
-            for line in isort_buffer.getvalue().splitlines()
-            if line.strip().split(' ', 1)[0] not in filtering_out
-        ]
-
-        # Normalizing newlines:
-        if len(valid_lines) > 1:
-            valid_lines.insert(1, '')
-        valid_lines.append('')
-
-        return '\n'.join(valid_lines)
-
-    @staticmethod
-    def _fixup_sortimports_eof(sort_imports):
-        """Ensure single end-of-file newline in `isort.SortImports.in_lines`
-
-        isort fixes EOF blank lines but this change should be suppressed as
-        Flake8 will also flag them.
-
-        Args:
-            sort_imports (isort.SortImports): The isorts results object.
-
-        Returns:
-            isort.SortImports: The modified isort results object.
-        """
-        to_remove = {''} | set(sort_imports.add_imports)
-        for line in reversed(sort_imports.in_lines):
-            if line.strip() in to_remove:
-                # If single empty line in in_lines, do nothing.
-                if len(sort_imports.in_lines) > 1:
-                    sort_imports.in_lines.pop()
-            else:
-                sort_imports.in_lines.append('')
-                break
-
-    @staticmethod
-    def _fixup_sortimports_wrapped(sort_imports):
-        """Split-up wrapped imports newlines in `SortImports.out_lines`
-
-        isort combines wrapped lines into a single list entry string in
-        `out_lines` whereas `in_lines` are separate strings so for diff
-        comparison these need to be comparable.
-
-        Args:
-            sort_imports (isort.SortImports): The isorts results object.
-
-        Returns:
-            isort.SortImports: The modified isort results object.
-        """
-        for idx, line in enumerate(sort_imports.out_lines):
-            if '\n' in line:
-                for new_idx, new_line in enumerate(
-                    sort_imports.out_lines.pop(idx).splitlines()
-                ):
-                    sort_imports.out_lines.insert(idx + new_idx, new_line)
 
 
 class Flake8Isort5(Flake8IsortBase):
@@ -258,4 +134,4 @@ class Flake8Isort5(Flake8IsortBase):
                 yield line_num, self.isort_add_unexp
 
 
-Flake8Isort = Flake8Isort5 if hasattr(isort, 'api') else Flake8Isort4
+Flake8Isort = Flake8Isort5

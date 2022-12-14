@@ -1,7 +1,4 @@
-"""unit tests for flake8-isort
-
-the test should pass with both isort 4 and isort 5
-"""
+"""unit tests for flake8-isort"""
 
 import collections
 import os
