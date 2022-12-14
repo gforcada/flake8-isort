@@ -23,16 +23,6 @@ jobs:
           - python-version: 3.9
             isort: 5.10.1
             flake8: 3.9.2
-
-          - python-version: 3.9
-            isort: 4.3.21
-            flake8: 5.0.4
-          - python-version: 3.9
-            isort: 4.3.21
-            flake8: 4.0.1
-          - python-version: 3.9
-            isort: 4.3.21
-            flake8: 3.9.2
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
