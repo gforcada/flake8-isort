@@ -212,7 +212,13 @@ def test_isort_formatted_output(tmpdir):
     from sys import pid
     """
     options = collections.namedtuple(
-        'Options', ['no_isort_config', 'isort_show_traceback', 'stdin_display_name']
+        'Options',
+        [
+            'no_isort_config',
+            'isort_show_traceback',
+            'stdin_display_name',
+            'isort_no_skip_gitignore',
+        ],
     )
 
     (file_path, lines) = write_python_file(tmpdir, source)
@@ -220,7 +226,7 @@ def test_isort_formatted_output(tmpdir):
     diff = ' from __future__ import division\n+\n import os'
 
     checker = Flake8Isort(None, file_path, lines)
-    checker.parse_options(None, options(None, True, 'stdin'), None)
+    checker.parse_options(None, options(None, True, 'stdin', None), None)
     ret = list(checker.run())
     assert len(ret) == 1
     assert ret[0][0] == 3

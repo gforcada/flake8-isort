@@ -29,6 +29,8 @@ Configuration
 -------------
 If using the `select` `option from flake8`_ be sure to enable the `I` category as well, see below for the specific error codes reported by `flake8-isort`.
 
+See ``flake8 --help`` for available flake8-isort options.
+
 Error codes
 -----------
 +------------+-----------------------------------------------------------+

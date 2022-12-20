@@ -25,6 +25,7 @@ class Flake8IsortBase:
     isort_add_unexp = 'I005 isort found an unexpected missing import'
 
     show_traceback = False
+    no_skip_gitignore = False
     stdin_display_name = None
     search_current = True
 
@@ -40,11 +41,23 @@ class Flake8IsortBase:
             parse_from_config=True,
             help='Show full traceback with diff from isort',
         )
+        option_manager.add_option(
+            '--isort-no-skip-gitignore',
+            action='store_true',
+            parse_from_config=True,
+            help=(
+                "Temporarily override the set value of isort's `skip_gitignore` option "
+                'with `False`. This can cause flake8-isort to run significantly faster '
+                "at the cost of making flake8-isort's behavior differ slightly from "
+                'the behavior of `isort --check`.'
+            ),
+        )
 
     @classmethod
     def parse_options(cls, option_manager, options, args):
         cls.stdin_display_name = options.stdin_display_name
         cls.show_traceback = options.isort_show_traceback
+        cls.no_skip_gitignore = options.isort_no_skip_gitignore
 
 
 class Flake8Isort5(Flake8IsortBase):
@@ -53,10 +66,16 @@ class Flake8Isort5(Flake8IsortBase):
     def run(self):
         if self.filename is not self.stdin_display_name:
             file_path = Path(self.filename)
-            isort_config = isort.settings.Config(settings_path=file_path.parent)
+            settings_path = file_path.parent
         else:
             file_path = None
-            isort_config = isort.settings.Config(settings_path=Path.cwd())
+            settings_path = Path.cwd()
+        if self.no_skip_gitignore:
+            isort_config = isort.settings.Config(
+                settings_path=settings_path, skip_gitignore=False
+            )
+        else:
+            isort_config = isort.settings.Config(settings_path=settings_path)
         input_string = ''.join(self.lines)
         traceback = ''
         isort_changed = False

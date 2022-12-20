@@ -3,11 +3,16 @@
 Changelog
 =========
 
-5.0.4 (unreleased)
+5.1.0 (unreleased)
 ------------------
 
 - Drop isort 4.x support.
   [gforcada]
+
+- Add `--isort-no-skip-gitignore` option to allow temporarily overriding the set
+  value of isort's `skip_gitignore` option with `False`. This can cause
+  flake8-isort to run significantly faster at the cost of making flake8-isort's
+  behavior differ slightly from the behavior of `isort --check`. [gschaffner]
 
 5.0.3 (2022-11-20)
 ------------------
