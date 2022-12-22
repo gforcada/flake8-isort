@@ -9,6 +9,9 @@ Changelog
 - Drop isort 4.x support.
   [gforcada]
 
+- Add support for flake8 6.0.0.
+  [gforcada]
+
 - Add `--isort-no-skip-gitignore` option to allow temporarily overriding the set
   value of isort's `skip_gitignore` option with `False`. This can cause
   flake8-isort to run significantly faster at the cost of making flake8-isort's
