@@ -17,7 +17,7 @@ long_description = f"""
 
 setup(
     name='flake8-isort',
-    version='5.1.0.dev0',
+    version='6.0.0',
     description=short_description,
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/

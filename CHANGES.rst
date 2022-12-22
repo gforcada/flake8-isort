@@ -3,7 +3,7 @@
 Changelog
 =========
 
-5.1.0 (unreleased)
+6.0.0 (2022-12-22)
 ------------------
 
 - Drop isort 4.x support.
