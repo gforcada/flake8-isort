@@ -28,8 +28,6 @@ coveralls==3.3.1
     # via -r requirements-lint.in
 docopt==0.6.2
     # via coveralls
-exceptiongroup==1.0.0
-    # via pytest
 flake8==5.0.4
     # via
     #   flake8-bugbear
@@ -62,19 +60,10 @@ flake8-todo==0.7
     # via -r requirements-lint.in
 gitdb==4.0.9
     # via gitpython
-gitpython==3.1.29
+gitpython==3.1.32
     # via bandit
 idna==3.4
     # via requests
-importlib-metadata==4.2.0 ; python_version < "3.8"
-    # via
-    #   -r requirements-lint.in
-    #   click
-    #   flake8
-    #   flake8-comprehensions
-    #   pluggy
-    #   pytest
-    #   stevedore
 iniconfig==1.1.1
     # via pytest
 isort==5.10.1
@@ -127,26 +116,7 @@ stevedore==3.5.2
     # via bandit
 tokenize-rt==5.0.0
     # via pyupgrade
-tomli==2.0.1
-    # via
-    #   black
-    #   coverage
-    #   mypy
-    #   pytest
-typed-ast==1.5.4 ; python_version < "3.8"
-    # via
-    #   -r requirements-lint.in
-    #   black
-    #   mypy
 typing-extensions==4.4.0
-    # via
-    #   black
-    #   gitpython
-    #   importlib-metadata
-    #   mypy
+    # via mypy
 urllib3==1.26.12
     # via requests
-zipp==3.10.0 ; python_version < "3.8"
-    # via
-    #   -r requirements-lint.in
-    #   importlib-metadata
