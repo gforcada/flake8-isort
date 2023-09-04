@@ -1,17 +1,17 @@
 import warnings
 from contextlib import redirect_stdout
 from difflib import unified_diff
+from importlib.metadata import PackageNotFoundError, version
 from io import StringIO
 from pathlib import Path
 
 import isort
-from pkg_resources import DistributionNotFound, get_distribution
 
 
 def _version():
     try:
-        return get_distribution('flake8_isort').version
-    except DistributionNotFound:
+        return version('flake8_isort')
+    except PackageNotFoundError:
         return 'dev'  # for local development if package is not installed yet
 
 
