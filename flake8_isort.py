@@ -93,7 +93,7 @@ class Flake8Isort5(Flake8IsortBase):
         except isort.exceptions.FileSkipped:
             pass
         except isort.exceptions.ISortError as e:
-            warnings.warn(e)
+            warnings.warn(e, stacklevel=2)
         if isort_changed:
             outlines = output_stream.getvalue()
             diff_delta = ''.join(
