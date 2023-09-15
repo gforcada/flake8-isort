@@ -1,6 +1,5 @@
 coveralls
 flake8
-importlib-metadata; python_version < '3.8'
 isort
 pytest
 pytest-cov
