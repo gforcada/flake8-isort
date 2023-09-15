@@ -6,8 +6,8 @@ Changelog
 6.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Drop python 3.7 support.
+  [gforcada]
 
 6.0.0 (2022-12-22)
 ------------------
