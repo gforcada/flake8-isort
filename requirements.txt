@@ -16,8 +16,6 @@ coveralls==3.3.1
     # via -r requirements.in
 docopt==0.6.2
     # via coveralls
-exceptiongroup==1.1.3
-    # via pytest
 flake8==6.1.0
     # via -r requirements.in
 idna==3.4
@@ -44,9 +42,5 @@ pytest-cov==4.1.0
     # via -r requirements.in
 requests==2.31.0
     # via coveralls
-tomli==2.0.1
-    # via
-    #   coverage
-    #   pytest
-urllib3==2.0.4
+urllib3==2.0.6
     # via requests
