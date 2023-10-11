@@ -1,7 +1,7 @@
 .. -*- coding: utf-8 -*-
 
-.. image:: https://github.com/gforcada/flake8-isort/actions/workflows/testing.yml/badge.svg?branch=master
-   :target: https://github.com/gforcada/flake8-isort/actions/workflows/testing.yml
+.. image:: https://github.com/gforcada/flake8-isort/actions/workflows/tests.yml/badge.svg?branch=master
+   :target: https://github.com/gforcada/flake8-isort/actions/workflows/tests.yml
 
 .. image:: https://coveralls.io/repos/gforcada/flake8-isort/badge.svg?branch=master
    :target: https://coveralls.io/github/gforcada/flake8-isort?branch=master
