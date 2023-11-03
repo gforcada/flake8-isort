@@ -3,7 +3,7 @@
 Changelog
 =========
 
-6.1.1 (unreleased)
+6.1.1 (2023-11-03)
 ------------------
 
 - Switch from `setup.cfg` to `setup.py`.
