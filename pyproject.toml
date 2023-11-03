@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flake8-isort"
+version = "6.1.1.dev0"
+authors = [{ name = "Gil Forcada", email = "gil.gnome@gmail.com" }]
+license = { text = "GPL version 2" }
+description = "flake8 plugin that integrates isort ."
+keywords = ["pep8", "flake8", "python", "isort", "imports"]
+readme = "README.rst"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: Flake8",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Quality Assurance",
+]
+urls = { Homepage = "https://github.com/gforcada/flake8-isort" }
+requires-python = ">=3.8"
+dependencies = ["flake8", "isort >= 5.0.0, <6"]
+
+[project.entry-points]
+"flake8.extension" = { I00 = "flake8_isort:Flake8Isort" }
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools]
+py-modules = ["flake8_isort"]
+zip-safe = false
+include-package-data = true
+
+[tool."zest.releaser"]
+create-wheel = "yes"
+
+[tool.check-manifest]
+ignore = """
+.installed.cfg"""
+
+[tool.isort]
+profile = "black"
