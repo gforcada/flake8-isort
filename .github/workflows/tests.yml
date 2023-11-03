@@ -1,33 +1,20 @@
 name: Testing
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   test:
-    name: py-${{ matrix.python-version }}/isort-${{ matrix.isort }}/flake8-${{ matrix.flake8 }}
-    runs-on: ubuntu-latest
+    name: Testing on
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        python-version: ["3.12.0-beta.2", "3.11", "3.10", 3.9, 3.8, pypy-3.9]
-        isort: [5.11.2]
-        flake8: [5.0.4]
-        include:
-          - python-version: 3.9
-            isort: 5.11.2
-            flake8: 4.0.1
-            qa: 'true'
-          - python-version: 3.9
-            isort: 5.11.2
-            flake8: 3.9.2
-          - python-version: 3.9
-            isort: 5.11.2
-            flake8: 6.0.0
+        python-version: ["3.12", "3.11", "3.10", 3.9, 3.8, pypy-3.9]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -36,52 +23,36 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('tox.ini') }}
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
-      - name: pip version
-        run: pip --version
       - name: Install dependencies
-        if: matrix.qa != 'true'
-        run: |
-          python -m pip install -r requirements.txt
-          pip install 'isort==${{ matrix.isort }}' 'flake8==${{ matrix.flake8 }}'
-      - name: Install dependencies
-        if: matrix.qa == 'true'
-        run: |
-          python -m pip install -r requirements-lint.txt
-          pip install 'isort==${{ matrix.isort }}' 'flake8==${{ matrix.flake8 }}'
-      # isort 4.x requires `toml` to be able to read pyproject.toml, so install it...
-      - name: Install toml if required
-        run: pip install toml
-        if: matrix.isort == '4.3.21'
-      # formatters
-      - name: Run pyupgrade
-        if: matrix.qa == 'true'
-        run: pyupgrade --py37-plus *.py
-      - name: Run isort
-        if: matrix.qa == 'true'
-        run: isort --check-only *.py
-      - name: Run black
-        if: matrix.qa == 'true'
-        run: black --check --skip-string-normalization *.py
-      # linters
-      - name: Lint with bandit
-        if: matrix.qa == 'true'
-        run: bandit --skip B101 *.py  # B101 is assert statements
-      - name: Lint with codespell
-        if: matrix.qa == 'true'
-        run: codespell *.rst *.py
-      - name: Lint with flake8
-        if: matrix.qa == 'true'
-        run: flake8 *.py --count --max-complexity=18 --max-line-length=88 --show-source --statistics
-      - name: Lint with mypy
-        if: matrix.qa == 'true'
-        run: |
-          mkdir --parents --verbose .mypy_cache
-          mypy --ignore-missing-imports --install-types --non-interactive *.py || true
-      # tests and coverage
+        run: python -m pip install tox
       - name: Test
-        run: pytest run_tests.py --cov --cov-report term-missing
-      - name: Coverage
-        run: coveralls --service=github
+        run: tox -e test
+
+  lint:
+    name: Lint code
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Cache packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pre-commit
+            ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('tox.ini') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+      - name: Install dependencies
+        run: python -m pip install tox
+      - name: Run linting
+        run: tox -e lint

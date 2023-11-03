@@ -1,11 +1,12 @@
-import warnings
 from contextlib import redirect_stdout
 from difflib import unified_diff
-from importlib.metadata import PackageNotFoundError, version
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version
 from io import StringIO
 from pathlib import Path
 
 import isort
+import warnings
 
 
 def _version():

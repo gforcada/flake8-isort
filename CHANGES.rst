@@ -6,8 +6,17 @@ Changelog
 6.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Switch from `setup.cfg` to `setup.py`.
+  [deronnax]
 
+- Switch from `setuptools` to `hatchling`.
+  [gforcada]
+
+- Switch to `main` branch.
+  [gforcada]
+
+- Use `tox` and `pre-commit` to ease project maintenance.
+  [gforcada]
 
 6.1.0 (2023-09-15)
 ------------------

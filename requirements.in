@@ -1,5 +1,0 @@
-coveralls
-flake8
-isort
-pytest
-pytest-cov
