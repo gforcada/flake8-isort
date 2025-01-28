@@ -6,7 +6,11 @@ Changelog
 6.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for isort 6.0.0.
+  [SukiCZ]
+
+- Drop python 3.8, and add python 3.13.
+  [SukiCZ]
 
 
 6.1.1 (2023-11-03)
