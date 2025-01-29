@@ -3,7 +3,7 @@
 Changelog
 =========
 
-6.1.2 (unreleased)
+6.1.2 (2025-01-29)
 ------------------
 
 - Add support for isort 6.0.0.
