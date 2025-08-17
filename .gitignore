@@ -5,7 +5,9 @@
 .coverage
 .installed.cfg
 .hypothesis
+.tox
 bin
 develop-eggs
 include
 lib
+venv

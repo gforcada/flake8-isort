@@ -51,7 +51,7 @@ I00 = "flake8_isort:Flake8Isort"
 profile = "plone"
 
 [tool.black]
-target-version = ["py39"]
+target-version = ["py312"]
 skip-string-normalization = true
 
 [tool.check-manifest]
