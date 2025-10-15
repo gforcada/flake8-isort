@@ -34,7 +34,7 @@ classifiers = [
         "Topic :: Software Development",
         "Topic :: Software Development :: Quality Assurance",
 ]
-dependencies = ["flake8", "isort >= 5.0.0, <7"]
+dependencies = ["flake8", "isort >= 5.0.0"]
 
 [project.urls]
 "Homepage" = "https://github.com/gforcada/flake8-isort"
