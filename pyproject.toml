@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "flake8-isort"
-version = "7.0.0"
+version = "7.0.1.dev0"
 authors = [
   { name="Gil Forcada Codinachs", email="gil.gnome@gmail.com" },
 ]
