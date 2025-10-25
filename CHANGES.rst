@@ -9,6 +9,11 @@ Changelog
 - Add support for isort 7.0.0.
   [gforcada]
 
+- Drop python 3.9 support and add Python 3.14 support.
+  [gforcada]
+
+- Bump pypy minimum version to 3.10.
+
 6.1.2 (2025-01-29)
 ------------------
 
