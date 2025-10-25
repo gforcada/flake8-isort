@@ -6,8 +6,8 @@ Changelog
 6.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add support for isort 7.0.0.
+  [gforcada]
 
 6.1.2 (2025-01-29)
 ------------------
