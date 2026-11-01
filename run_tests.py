@@ -174,7 +174,7 @@ def test_flake8_isort(tmpdir, testcase, mode):
         if 'config' in testcase:
             write_isort_cfg(tmpdir, testcase['config'])
         if mode == 'file':
-            (file_path, lines) = write_python_file(tmpdir, testcase['code'])
+            file_path, lines = write_python_file(tmpdir, testcase['code'])
             checker = Flake8Isort(None, file_path, lines)
         elif mode == 'code_string':
             source = textwrap.dedent(testcase['code'])
@@ -188,7 +188,7 @@ def test_isortcfg_found(tmpdir):
     from sys import pid
     import threading
     """
-    (file_path, lines) = write_python_file(tmpdir, source)
+    file_path, lines = write_python_file(tmpdir, source)
     write_isort_cfg(tmpdir, 'force_single_line=True')
     checker = Flake8Isort(None, file_path, lines)
     checker.config_file = True
@@ -197,7 +197,7 @@ def test_isortcfg_found(tmpdir):
 
 
 def test_isortcfg_not_found(tmpdir):
-    (file_path, lines) = write_python_file(tmpdir, 'from sys import pid, path')
+    file_path, lines = write_python_file(tmpdir, 'from sys import pid, path')
     checker = Flake8Isort(None, file_path, lines)
     checker.search_current = False
     checker.config_file = True
@@ -221,7 +221,7 @@ def test_isort_formatted_output(tmpdir):
         ],
     )
 
-    (file_path, lines) = write_python_file(tmpdir, source)
+    file_path, lines = write_python_file(tmpdir, source)
 
     diff = ' from __future__ import division\n+\n import os'
 
@@ -243,7 +243,7 @@ def test_if_config_file_is_used(tmpdir, method_to_write_config):
     import os
     from sys import path
     """
-    (file_path, lines) = write_python_file(
+    file_path, lines = write_python_file(
         tmpdir,
         source,
     )
@@ -258,7 +258,7 @@ def test_flake8(tmpdir):
     from flake8.main import cli
     import sys
 
-    (file_path, lines) = write_python_file(tmpdir, 'from sys import pid, path')
+    file_path, lines = write_python_file(tmpdir, 'from sys import pid, path')
 
     sys.argv = sys.argv[:2]
     try:
