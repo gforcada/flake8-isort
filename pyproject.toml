@@ -11,24 +11,23 @@ authors = [
 description = "flake8 plugin that integrates isort"
 keywords = ["pep8", "flake8", "python", "isort", "imports"]
 license = {file = "LICENSE"}
-readme = "README.rst"
-requires-python = ">=3.10"
+readme = "README.md"
+requires-python = ">=3.11"
 classifiers = [
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Framework :: Flake8",
         'Framework :: Plone',
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
         "Programming Language :: Python :: 3.14",
+        "Programming Language :: Python :: 3.15",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development",
@@ -39,7 +38,7 @@ dependencies = ["flake8", "isort >= 5.0.0"]
 [project.urls]
 "Homepage" = "https://github.com/gforcada/flake8-isort"
 "Bug Tracker" = "https://github.com/gforcada/flake8-isort/issues"
-"Changelog" = "https://github.com/gforcada/flake8-isort/blob/main/CHANGES.rst"
+"Changelog" = "https://github.com/gforcada/flake8-isort/blob/main/CHANGES.md"
 
 [project.optional-dependencies]
 test = ["pytest"]

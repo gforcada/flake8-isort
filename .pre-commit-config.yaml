@@ -4,16 +4,16 @@ ci:
 
 repos:
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+    rev: v3.21.2
     hooks:
     -   id: pyupgrade
-        args: [--py38-plus]
+        args: [--py311-plus]
 -   repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+    rev: 9.0.1
     hooks:
     -   id: isort
--   repo: https://github.com/psf/black
-    rev: 25.1.0
+-   repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 26.5.1
     hooks:
     -   id: black
 -   repo: https://github.com/PyCQA/flake8
@@ -32,20 +32,24 @@ repos:
           - flake8-quotes
 
 -   repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.3
     hooks:
     -   id: codespell
         additional_dependencies:
           - tomli
 -   repo: https://github.com/mgedmin/check-manifest
-    rev: "0.50"
+    rev: "0.51"
     hooks:
     -   id: check-manifest
 -   repo: https://github.com/regebro/pyroma
-    rev: "5.0"
+    rev: "5.1b1"
     hooks:
     -   id: pyroma
 -   repo: https://github.com/mgedmin/check-python-versions
-    rev: "0.22.1"
+    rev: "0.24.2"
     hooks:
     -   id: check-python-versions
+- repo: https://github.com/zizmorcore/zizmor-pre-commit
+  rev: v1.31.1
+  hooks:
+  - id: zizmor
