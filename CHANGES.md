@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.1 (unreleased)
+
+
+- Nothing changed yet.
+
+
 ## 7.1.0 (2026-11-02)
 
 - update supported python versions (3.11 to 3.15) @gforcada
